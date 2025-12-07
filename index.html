@@ -613,3 +613,56 @@
         }
     </style>
 </head>
+    <body>
+    <!-- ✅ CONTENEUR PRINCIPAL : sidebar + zone de contenu -->
+    <div class="app-container">
+        
+        <!-- 📋 SIDEBAR : navigation latérale -->
+        <nav id="sidebar" class="sidebar">
+            <!-- En-tête avec logo et titre -->
+            <div class="sidebar-header">
+                <i class="fa-solid fa-bug" style="color:var(--success)"></i>
+                <h1>BountyAcademy</h1>
+            </div>
+
+            <!-- 📊 PANNEAU XP : affiche le niveau, la barre de progression et les XP -->
+            <div class="xp-panel">
+                <div class="xp-info">
+                    <span>Niveau</span>
+                    <!-- Badge dynamique (Novice → Expert) -->
+                    <span id="user-level" class="badge badge-success">Novice</span>
+                </div>
+                <!-- Barre de progression visuelle -->
+                <div class="xp-bar-container">
+                    <div id="xp-bar" class="xp-bar"></div>
+                </div>
+                <!-- Affichage des XP actuels et objectif -->
+                <div class="xp-info">
+                    <span id="current-xp">0 XP</span>
+                    <span id="next-level-xp">3000 XP</span>
+                </div>
+            </div>
+
+            <!-- 🔗 NAVIGATION DYNAMIQUE : les boutons de lab seront injectés ici par JS -->
+            <div class="nav-section" id="nav-buttons">
+                <!-- Les boutons "Tableau de bord", "Lab 1: XSS", etc. seront générés ici -->
+            </div>
+
+            <!-- 📈 Pied de sidebar : progression globale -->
+            <div style="padding: 1rem; border-top: 1px solid var(--border-dark);">
+                <div class="xp-info" style="margin-bottom: 0.5rem;">
+                    <span>Progression totale</span>
+                </div>
+                <div style="font-size: 0.9rem; color: var(--text-secondary); text-align: center;">
+                    <span id="completed-count">0</span>/<span>8</span> labs complétés
+                </div>
+            </div>
+        </nav>
+
+        <!-- 🖥️ ZONE PRINCIPALE : contenu dynamique (labs, dashboard, etc.) -->
+        <main class="main-content">
+            <!-- 📱 BARRE D'EN-TÊTE MOBILE (visible uniquement sur petit écran) -->
+            <div class="mobile-header">
+                <span style="color:white; font-weight:bold;">BountyAcademy</span>
+                <!-- Bouton pour ouvrir/fermer le menu sur mobile -->
+                <button onclick="toggleSidebar
