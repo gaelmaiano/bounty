@@ -1823,6 +1823,415 @@
             }
         })();
     </script>
+                // --- LAB FUNCTION : WAF BYPASS ---
+        function runWAFBypass() {
+            const input = document.getElementById('waf-input').value;
+            const resultDiv = document.getElementById('waf-result');
+
+            // WAF simulé : bloque les payloads classiques
+            const blockedPatterns = [
+                /<script/i,
+                /javascript:/i,
+                /onerror\s*=/i,
+                /alert\s*\(/i,
+                /<\/script>/i
+            ];
+            const isBlocked = blockedPatterns.some(pattern => pattern.test(input));
+
+            if (isBlocked) {
+                resultDiv.innerHTML = `
+                    <div style="color:#dc2626; font-weight:600;">
+                        <i class="fa-solid fa-shield-alt"></i> WAF : Requête bloquée
+                    </div>
+                    <div style="color:#334155; margin-top:0.5rem;">
+                        Le pare-feu a détecté un payload malveillant.
+                    </div>
+                    <div style="color:#64748b; font-size:0.9rem; margin-top:1rem;">
+                        Essayez d’obfusquer ou d’utiliser un vecteur alternatif.
+                    </div>
+                `;
+                return;
+            }
+
+            // Détecte les payloads de bypass
+            const bypassPatterns = [
+                /<img[^>]*onerror/i,
+                /<svg[^>]*onload/i,
+                /<body[^>]*onload/i
+            ];
+            const isBypass = bypassPatterns.some(pattern => pattern.test(input));
+
+            if (isBypass) {
+                resultDiv.innerHTML = `
+                    <div style="color:#334155;">
+                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
+                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace; margin-bottom:1rem;">
+                            ${escapeHtml(input)}
+                        </div>
+                        <div style="color:#16a34a; font-weight:600;">
+                            <i class="fa-solid fa-check-circle"></i> WAF contourné avec succès !
+                        </div>
+                    </div>
+                `;
+                showFakeAlert();
+                if (!appState.completedModules.includes('waf')) {
+                    validateModule('waf');
+                }
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="color:#334155;">
+                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
+                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace;">
+                            ${escapeHtml(input)}
+                        </div>
+                        <div style="margin-top:1rem; color:#64748b; font-size:0.9rem;">
+                            Aucune injection détectée. Le WAF n’a pas été déclenché, mais pas de XSS non plus.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // --- LAB FUNCTIONS EXISTANTS ---
+        function runXSS() {
+            const input = document.getElementById('xss-input').value;
+            const resultDiv = document.getElementById('xss-result');
+            if (input.includes('<script>') && input.includes('alert(') || 
+                input.includes('alert(') && input.includes(')')) {
+                resultDiv.innerHTML = `
+                    <div style="color:#334155;">
+                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
+                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace; margin-bottom:1rem;">
+                            ${escapeHtml(input)}
+                        </div>
+                        <div style="color:#dc2626; font-weight:600;">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Script exécuté avec succès!
+                        </div>
+                    </div>
+                `;
+                showFakeAlert();
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="color:#334155;">
+                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
+                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace;">
+                            ${escapeHtml(input)}
+                        </div>
+                        <div style="margin-top:1rem; color:#64748b; font-size:0.9rem;">
+                            Aucun script JavaScript détecté dans la recherche.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function loadIDORProfile() {
+            const profileId = document.getElementById('idor-input').value;
+            const profileDiv = document.getElementById('idor-profile');
+            const urlBar = document.getElementById('idor-url');
+            if (urlBar) urlBar.textContent = `https://vulnerable-site.com/profile?id=${profileId}`;
+            if (profileId === '1234') {
+                profileDiv.innerHTML = `
+                    <div style="border-bottom:1px solid #e2e8f0; padding-bottom:1rem; margin-bottom:1rem;">
+                        <h3 style="color:#334155;">Profil Administrateur</h3>
+                        ID: <span style="color:#334155; font-family:monospace;">1234</span>
+                    </div>
+                    ...
+                    <div style="margin-top:1.5rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
+                        <div style="color:#16a34a; font-weight:600;">
+                            <i class="fa-solid fa-check-circle"></i> IDOR Réussi !
+                        </div>
+                    </div>
+                `;
+            } else {
+                profileDiv.innerHTML = `
+                    <div style="border-bottom:1px solid #e2e8f0; padding-bottom:1rem; margin-bottom:1rem;">
+                        <h3 style="color:#334155;">Profil Utilisateur</h3>
+                        ID: <span style="color:#334155; font-family:monospace;">${profileId}</span>
+                    </div>
+                    ...
+                `;
+            }
+        }
+
+        function runSQLI() {
+            const username = document.getElementById('sqli-user').value;
+            const password = document.getElementById('sqli-pass').value;
+            const resultDiv = document.getElementById('sqli-result');
+            if (password.includes("' OR '1'='1") || password.includes("' OR 1=1--")) {
+                resultDiv.innerHTML = `
+                    <div style="color:#334155;">
+                        <div style="color:#16a34a; font-weight:600; margin-bottom:1rem;">
+                            <i class="fa-solid fa-check-circle"></i> Connexion réussie !
+                        </div>
+                        <table>...</table>
+                        <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
+                            <div style="color:#16a34a; font-weight:600;">
+                                <i class="fa-solid fa-database"></i> SQL Injection réussie !
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="color:#dc2626; font-weight:600;">
+                        <i class="fa-solid fa-xmark-circle"></i> Échec de la connexion
+                    </div>
+                `;
+            }
+        }
+
+        function submitCSRF() {
+            const email = document.getElementById('csrf-email').value;
+            const resultDiv = document.getElementById('csrf-result');
+            resultDiv.innerHTML = `
+                <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:1.5rem; border-radius:8px;">
+                    <div style="color:#16a34a; font-weight:600; margin-bottom:0.5rem;">
+                        <i class="fa-solid fa-check-circle"></i> Email changé avec succès !
+                    </div>
+                </div>
+            `;
+        }
+
+        function parseXXE() {
+            const xmlInput = document.getElementById('xxe-input').value;
+            const resultDiv = document.getElementById('xxe-result');
+            if (xmlInput.includes('<!ENTITY') && xmlInput.includes('SYSTEM') && xmlInput.includes('file://')) {
+                resultDiv.innerHTML = `
+                    <div>...</div>
+                    <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
+                        <i class="fa-solid fa-file-code"></i> Fichier système lu avec succès
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="color:#dc2626; font-weight:600;">
+                        <i class="fa-solid fa-xmark-circle"></i> Erreur de parsing XML
+                    </div>
+                `;
+            }
+        }
+
+        function updateRaceUI() {
+            document.getElementById('stock-count').textContent = appState.raceStock;
+            document.getElementById('user-money').textContent = appState.raceUserMoney;
+            document.getElementById('user-inventory').textContent = appState.raceInventory;
+        }
+
+        function buyProduct() {
+            if (appState.raceStock > 0 && appState.raceUserMoney >= 100) {
+                appState.raceStock--;
+                appState.raceUserMoney -= 100;
+                appState.raceInventory++;
+                updateRaceUI();
+                document.getElementById('race-output').innerHTML = `<div style="color:#16a34a;">Achat réussi</div>`;
+            } else {
+                document.getElementById('race-output').innerHTML = `<div style="color:#dc2626;">Achat impossible</div>`;
+            }
+        }
+
+        function startRaceCondition() {
+            const initialStock = appState.raceStock;
+            const successfulBuys = Math.min(10, initialStock + 3);
+            appState.raceStock = 0;
+            appState.raceUserMoney -= successfulBuys * 100;
+            appState.raceInventory += successfulBuys;
+            updateRaceUI();
+            document.getElementById('race-output').innerHTML = `
+                <div style="background:#fee2e2; border:1px solid #fecaca; padding:1.5rem; border-radius:8px;">
+                    <i class="fa-solid fa-bolt"></i> RACE CONDITION RÉUSSIE !
+                    Achats validés: ${successfulBuys}
+                </div>
+            `;
+        }
+
+        function loadLFI() {
+            const input = document.getElementById('lfi-input').value;
+            const result = document.getElementById('lfi-result');
+            if (input === 'welcome.txt') {
+                result.innerHTML = `...`;
+            } else if (input.includes('../../../etc/passwd') || input.includes('/etc/passwd')) {
+                result.innerHTML = `
+                    <div>...</div>
+                    <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
+                        <i class="fa-solid fa-file-lines"></i> Fichier système lu avec succès
+                    </div>
+                `;
+            } else {
+                result.innerHTML = `<div style="color:#dc2626;">Fichier introuvable</div>`;
+            }
+        }
+
+        // --- NAVIGATION, XP, TOAST, etc. ---
+        function navigateTo(view) {
+            appState.currentView = view;
+            renderContent();
+            updateNavButtons();
+            updateXPBar();
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('mobile-open');
+            }
+            history.pushState({ view }, '', `#${view}`);
+        }
+
+        function renderContent() {
+            const contentArea = document.getElementById('content-area');
+            const viewFunction = views[appState.currentView];
+            if (viewFunction) {
+                contentArea.innerHTML = viewFunction();
+                if (appState.currentView === 'module-idor') loadIDORProfile();
+                else if (appState.currentView === 'module-rc') updateRaceUI();
+            } else {
+                contentArea.innerHTML = `
+                    <div style="text-align:center; padding:4rem 2rem;">
+                        <h2 style="color:white; margin-bottom:1rem;">Vue non trouvée</h2>
+                        <button onclick="navigateTo('dashboard')" class="vulnerable-btn">
+                            <i class="fa-solid fa-home"></i> Retour au tableau de bord
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function renderNavButtons() {
+            const navContainer = document.getElementById('nav-buttons');
+            let html = '';
+            html += `<button class="nav-btn ${appState.currentView === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">
+                <i class="fa-solid fa-gauge-high"></i> Tableau de bord
+            </button>`;
+            html += '<div style="color:var(--text-secondary); padding:1rem 1.5rem 0.5rem; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Labs</div>';
+            modulesData.forEach(module => {
+                const isCompleted = appState.completedModules.includes(module.id);
+                const isActive = appState.currentView === 'module-' + module.id;
+                html += `
+                    <button class="nav-btn ${isActive ? 'active' : ''}" onclick="navigateTo('module-${module.id}')">
+                        <i class="fa-solid fa-${module.icon}" style="color:${module.color}"></i>
+                        <span style="flex:1; text-align:left;">${module.title}</span>
+                        ${isCompleted ? '<span class="module-progress" style="color:var(--success);"><i class="fa-solid fa-check-circle"></i></span>' : '<span class="module-progress">' + module.xp + ' XP</span>'}
+                    </button>
+                `;
+            });
+            navContainer.innerHTML = html;
+        }
+
+        function updateNavButtons() {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`.nav-btn[onclick*="navigateTo('${appState.currentView}')"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('mobile-open');
+        }
+
+        function updateXPBar() {
+            const xpPercentage = Math.min((appState.xp / 3000) * 100, 100);
+            document.getElementById('xp-bar').style.width = `${xpPercentage}%`;
+            let level, levelName;
+            if (appState.xp >= 3000) { level = 5; levelName = 'Expert'; }
+            else if (appState.xp >= 2000) { level = 4; levelName = 'Avancé'; }
+            else if (appState.xp >= 1000) { level = 3; levelName = 'Intermédiaire'; }
+            else if (appState.xp >= 500) { level = 2; levelName = 'Débutant'; }
+            else { level = 1; levelName = 'Novice'; }
+            appState.level = level;
+            document.getElementById('user-level').textContent = levelName;
+            document.getElementById('user-level').className = `badge badge-${level === 5 ? 'success' : level >= 3 ? 'warning' : 'danger'}`;
+            document.getElementById('current-xp').textContent = `${appState.xp} XP`;
+            document.getElementById('completed-count').textContent = appState.completedModules.length;
+            document.getElementById('next-level-xp').textContent = `${3000 - appState.xp} XP`;
+        }
+
+        function validateModule(moduleId) {
+            if (!appState.completedModules.includes(moduleId)) {
+                appState.completedModules.push(moduleId);
+                const module = modulesData.find(m => m.id === moduleId);
+                if (module) {
+                    appState.xp += module.xp;
+                    showToast(`Lab validé ! +${module.xp} XP obtenus.`);
+                }
+                updateXPBar();
+                saveProgress();
+                renderNavButtons();
+                renderContent();
+            }
+        }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            let icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            if (type === 'warning') icon = 'exclamation-triangle';
+            if (type === 'info') icon = 'info-circle';
+            document.querySelector('.toast-header strong').innerHTML = `
+                <i class="fa-solid fa-${icon}" style="color:${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : type === 'warning' ? 'var(--warning)' : 'var(--info)'}"></i>
+                ${type === 'success' ? 'Succès' : type === 'error' ? 'Erreur' : type === 'warning' ? 'Avertissement' : 'Information'}
+            `;
+            toastMessage.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => { hideToast(); }, 4000);
+        }
+
+        function hideToast() { document.getElementById('toast').classList.remove('show'); }
+        function showFakeAlert() { document.getElementById('fake-alert-overlay').style.display = 'flex'; }
+        function closeFakeAlert() { document.getElementById('fake-alert-overlay').style.display = 'none'; }
+
+        // --- PERSISTANCE ---
+        function saveProgress() {
+            localStorage.setItem('bountyAcademyProgress', JSON.stringify({
+                xp: appState.xp,
+                completedModules: appState.completedModules,
+                raceStock: appState.raceStock,
+                raceUserMoney: appState.raceUserMoney,
+                raceInventory: appState.raceInventory
+            }));
+        }
+
+        function loadSavedProgress() {
+            const saved = localStorage.getItem('bountyAcademyProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                appState.xp = progress.xp || 0;
+                appState.completedModules = progress.completedModules || [];
+                appState.raceStock = progress.raceStock || 5;
+                appState.raceUserMoney = progress.raceUserMoney || 1000;
+                appState.raceInventory = progress.raceInventory || 0;
+            }
+        }
+
+        // --- INITIALISATION UNIQUE ---
+        (function initApp() {
+            console.log("🚀 Lancement de BountyAcademy...");
+            try {
+                renderNavButtons();
+                updateXPBar();
+                loadSavedProgress();
+                const hash = window.location.hash.substring(1);
+                if (hash && views[hash]) {
+                    navigateTo(hash);
+                } else {
+                    navigateTo('dashboard');
+                }
+                window.addEventListener('popstate', function(event) {
+                    if (event.state && event.state.view) {
+                        navigateTo(event.state.view);
+                    }
+                });
+                console.log("✅ Application initialisée avec succès");
+            } catch (error) {
+                console.error("❌ Erreur d'initialisation:", error);
+                document.getElementById('content-area').innerHTML = `
+                    <div style="text-align:center; padding:2rem;">
+                        <h2>Erreur de chargement</h2>
+                        <p>Veuillez recharger la page</p>
+                        <button onclick="window.location.reload()" class="vulnerable-btn">Recharger</button>
+                    </div>
+                `;
+            }
+        })();
+    </script>
+
+
 
 
 
