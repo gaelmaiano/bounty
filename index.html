@@ -1,2243 +1,414 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BountyAcademy - Labs Cybersec</title>
-    <link href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css " rel="stylesheet">
+    <title>BountyAcademy</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* --- VARIABLES CSS --- */
         :root {
-            --primary-dark: #0f172a;
-            --secondary-dark: #1e293b;
-            --border-dark: #334155;
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
+            --dark: #0f172a;
+            --dark2: #1e293b;
+            --border: #334155;
+            --text: #e2e8f0;
+            --text2: #94a3b8;
             --success: #10b981;
-            --warning: #f59e0b;
             --danger: #ef4444;
             --info: #3b82f6;
-            --waf: #8b5cf6;
-            --transition: all 0.3s ease;
-        }
-        /* --- RESET & BASE STYLES --- */
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-        }
-        body { 
-            background-color: var(--primary-dark); 
-            color: var(--text-primary); 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            height: 100vh; 
-            overflow: hidden; 
-            line-height: 1.6;
-        }
-        .app-container { 
-            display: flex; 
-            height: 100vh; 
-        }
-        /* --- SIDEBAR --- */
-        .sidebar { 
-            width: 16rem; 
-            background-color: var(--secondary-dark); 
-            border-right: 1px solid var(--border-dark); 
-            display: flex; 
-            flex-direction: column; 
-            z-index: 20; 
-            transition: transform 0.3s; 
-            overflow: hidden;
-        }
-        .sidebar-header { 
-            padding: 1.5rem; 
-            display: flex; 
-            align-items: center; 
-            gap: 0.75rem; 
-            border-bottom: 1px solid var(--border-dark); 
-        }
-        .sidebar-header h1 { 
-            font-size: 1.2rem; 
-            color: white; 
-            font-weight: bold; 
-            background: linear-gradient(90deg, var(--success), var(--info));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        /* --- XP PANEL --- */
-        .xp-panel { 
-            padding: 1rem; 
-            background: rgba(30, 41, 59, 0.5); 
-            margin: 1rem; 
-            border-radius: 0.5rem; 
-            border: 1px solid #475569; 
-            backdrop-filter: blur(10px);
-        }
-        .xp-bar-container { 
-            width: 100%; 
-            background: #334155; 
-            height: 0.5rem; 
-            border-radius: 10px; 
-            overflow: hidden; 
-            margin: 0.5rem 0; 
-        }
-        .xp-bar { 
-            background: linear-gradient(90deg, var(--success), #34d399); 
-            height: 100%; 
-            width: 0%; 
-            transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); 
-            position: relative;
-            overflow: hidden;
-        }
-        .xp-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.2), 
-                transparent);
-            animation: shimmer 2s infinite;
-        }
-        .xp-info { 
-            display: flex; 
-            justify-content: space-between; 
-            font-size: 0.75rem; 
-            color: var(--text-secondary); 
-        }
-        /* --- NAVIGATION --- */
-        .nav-section { 
-            flex: 1; 
-            overflow-y: auto; 
-            padding: 0.5rem 0; 
-            scrollbar-width: thin;
-            scrollbar-color: var(--border-dark) var(--secondary-dark);
-        }
-        .nav-section::-webkit-scrollbar {
-            width: 4px;
-        }
-        .nav-section::-webkit-scrollbar-track {
-            background: var(--secondary-dark);
-        }
-        .nav-section::-webkit-scrollbar-thumb {
-            background: var(--border-dark);
-            border-radius: 2px;
-        }
-        .nav-btn { 
-            width: 100%; 
-            text-align: left; 
-            padding: 0.75rem 1.5rem; 
-            color: var(--text-secondary); 
-            background: none; 
-            border: none; 
-            border-left: 4px solid transparent; 
-            cursor: pointer; 
-            transition: var(--transition); 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            position: relative;
-        }
-        .nav-btn:hover { 
-            color: #34d399; 
-            background: rgba(16, 185, 129, 0.1); 
-            border-left-color: var(--success); 
-        }
-        .nav-btn.active { 
-            color: #34d399; 
-            background: rgba(16, 185, 129, 0.2); 
-            border-left-color: var(--success); 
-            font-weight: 600;
-        }
-        .module-progress { 
-            margin-left: auto; 
-            font-size: 0.7rem; 
-            color: #64748b; 
-        }
-        /* --- MAIN CONTENT --- */
-        .main-content { 
-            flex: 1; 
-            overflow-y: auto; 
-            position: relative; 
-        }
-        .content-area { 
-            padding: 2rem; 
-            max-width: 64rem; 
-            margin: 0 auto; 
-            animation: fadeIn 0.3s ease;
-        }
-        .dashboard-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            background: linear-gradient(90deg, var(--info), var(--success));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .mobile-header { 
-            display: none; 
-            padding: 1rem; 
-            background: var(--secondary-dark); 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 1px solid var(--border-dark);
-        }
-        /* --- CARDS --- */
-        .stats-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 1.5rem; 
-            margin-bottom: 2rem; 
-        }
-        .stat-card { 
-            background: rgba(30, 41, 59, 0.7); 
-            padding: 1.5rem; 
-            border-radius: 0.5rem; 
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: var(--transition);
-        }
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        .module-card { 
-            background: var(--secondary-dark); 
-            padding: 1rem; 
-            border-radius: 0.5rem; 
-            margin-bottom: 1rem; 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border: 1px solid #475569; 
-            transition: var(--transition);
-        }
-        .module-card:hover { 
-            border-color: var(--success); 
-            transform: translateX(5px); 
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
-        }
-        .module-icon {
-            width: 3rem; 
-            height: 3rem; 
-            background: #334155; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-        /* --- LABS UI --- */
-        .lab-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .lab-difficulty {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--info);
-        }
-        .lab-container { 
-            background: var(--secondary-dark); 
-            border: 1px solid #475569; 
-            border-radius: 0.5rem; 
-            padding: 1.5rem; 
-            margin-top: 1rem; 
-            animation: slideUp 0.3s ease;
-        }
-        .lab-browser { 
-            background: #f8fafc; 
-            border-radius: 0.5rem; 
-            overflow: hidden; 
-            color: #334155; 
-            font-family: 'Segoe UI', sans-serif; 
-            border: 1px solid #cbd5e1; 
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .browser-bar { 
-            background: #e2e8f0; 
-            padding: 0.5rem; 
-            display: flex; 
-            align-items: center; 
-            gap: 0.5rem; 
-            border-bottom: 1px solid #cbd5e1; 
-        }
-        .url-bar { 
-            background: white; 
-            padding: 0.4rem 0.8rem; 
-            border-radius: 4px; 
-            flex: 1; 
-            font-size: 0.8rem; 
-            color: #64748b; 
-            border: 1px solid #cbd5e1; 
-            font-family: monospace;
-        }
-        .browser-content { 
-            padding: 2rem; 
-            min-height: 200px; 
-        }
-        /* --- INPUTS & BUTTONS --- */
-        .vulnerable-input { 
-            padding: 0.75rem; 
-            border: 2px solid #cbd5e1; 
-            border-radius: 4px; 
-            width: 100%; 
-            font-family: monospace;
-            transition: var(--transition);
-        }
-        .vulnerable-input:focus {
-            outline: none;
-            border-color: var(--info);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        .input-group {
-            display: flex;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-        .vulnerable-btn { 
-            padding: 0.75rem 1.5rem; 
-            background: var(--info); 
-            color: white; 
-            border: none; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            transition: var(--transition);
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        .vulnerable-btn:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-        }
-        .action-btn { 
-            width: 100%; 
-            padding: 1rem; 
-            background: var(--success); 
-            color: white; 
-            border: none; 
-            border-radius: 0.5rem; 
-            cursor: pointer; 
-            margin-top: 1rem; 
-            font-size: 1rem;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-        .action-btn:hover:not(:disabled) {
-            background: #059669;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-        }
-        .action-btn:disabled { 
-            background: #334155; 
-            cursor: not-allowed; 
-            opacity: 0.6;
-        }
-        /* --- SPECIFIC LAB STYLES --- */
-        .profile-card { 
-            border: 1px solid #cbd5e1; 
-            border-radius: 8px; 
-            padding: 20px; 
-            max-width: 400px; 
-            margin: 0 auto; 
-            background: white; 
-            text-align: left; 
-        }
-        .code-block {
-            background: #1e293b;
-            border: 1px solid #475569;
-            border-radius: 4px;
-            padding: 1rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-            margin: 1rem 0;
-            color: var(--text-primary);
-        }
-        .code-block pre {
-            margin: 0;
-        }
-        .result-container {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            border-radius: 4px;
-            text-align: left;
-            min-height: 100px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            color: #334155;
-        }
-        .success-message {
-            color: var(--success);
-            font-weight: bold;
-            margin-top: 1rem;
-        }
-        .error-message {
-            color: var(--danger);
-            font-weight: bold;
-            margin-top: 1rem;
-        }
-        /* --- RACE CONDITION SPECIFIC --- */
-        .race-controls { 
-            display: flex; 
-            gap: 0.5rem; 
-            margin: 1rem 0; 
-            flex-wrap: wrap;
-        }
-        .race-track { 
-            background: #e2e8f0; 
-            height: 20px; 
-            border-radius: 10px; 
-            margin: 0.5rem 0; 
-            position: relative; 
-            overflow: hidden; 
-        }
-        .race-progress { 
-            background: var(--info); 
-            height: 100%; 
-            width: 0%; 
-            transition: width 0.1s; 
-        }
-        /* --- TOAST & ALERTS --- */
-        .toast { 
-            position: fixed; 
-            bottom: 20px; 
-            right: 20px; 
-            background: var(--secondary-dark); 
-            border-left: 4px solid var(--success); 
-            color: white; 
-            padding: 15px 20px; 
-            border-radius: 4px; 
-            transform: translateX(150%); 
-            transition: transform 0.3s; 
-            z-index: 100; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            min-width: 300px;
-        }
-        .toast.show { 
-            transform: translateX(0); 
-        }
-        .toast-header{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        .toast-close{
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .fake-alert-overlay { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            bottom: 0; 
-            background: rgba(0,0,0,0.7); 
-            display: none; 
-            align-items: center; 
-            justify-content: center; 
-            z-index: 50; 
-            backdrop-filter: blur(4px);
-        }
-        .fake-alert-box { 
-            background: white; 
-            padding: 1.5rem; 
-            border-radius: 0.5rem; 
-            width: 90%;
-            max-width: 400px;
-            text-align: center; 
-            color: var(--primary-dark);
-            animation: popIn 0.3s ease;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-        /* --- ANIMATIONS --- */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes popIn {
-            from { 
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to { 
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        /* --- MOBILE RESPONSIVE --- */
+            --warning: #f59e0b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--dark); color: var(--text); font-family: system-ui; height: 100vh; overflow: hidden; }
+        .app { display: flex; height: 100vh; }
+        .sidebar { width: 16rem; background: var(--dark2); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+        .sidebar-header h1 { font-size: 1.2rem; background: linear-gradient(90deg, var(--success), var(--info)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .xp-panel { padding: 1rem; background: rgba(30,41,59,.5); margin: 1rem; border-radius: .5rem; border: 1px solid #475569; }
+        .xp-bar-container { background: var(--border); height: .5rem; border-radius: 10px; overflow: hidden; margin: .5rem 0; }
+        .xp-bar { background: linear-gradient(90deg, var(--success), #34d399); height: 100%; width: 0; transition: .5s; }
+        .nav-section { flex: 1; overflow-y: auto; }
+        .nav-btn { width: 100%; text-align: left; padding: .75rem 1.5rem; color: var(--text2); background: none; border: none; border-left: 4px solid transparent; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: .3s; }
+        .nav-btn:hover, .nav-btn.active { color: #34d399; background: rgba(16,185,129,.1); border-left-color: var(--success); }
+        .main { flex: 1; overflow-y: auto; }
+        .content { padding: 2rem; max-width: 64rem; margin: 0 auto; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: rgba(30,41,59,.7); padding: 1.5rem; border-radius: .5rem; border: 1px solid rgba(255,255,255,.05); transition: .3s; }
+        .stat-card:hover { transform: translateY(-2px); }
+        .module-card { background: var(--dark2); padding: 1rem; border-radius: .5rem; margin-bottom: 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid #475569; transition: .3s; }
+        .module-card:hover { border-color: var(--success); transform: translateX(5px); }
+        .lab-container { background: var(--dark2); border: 1px solid #475569; border-radius: .5rem; padding: 1.5rem; margin-top: 1rem; }
+        .lab-browser { background: #f8fafc; border-radius: .5rem; color: #334155; border: 1px solid #cbd5e1; }
+        .browser-bar { background: #e2e8f0; padding: .5rem; display: flex; gap: .5rem; border-bottom: 1px solid #cbd5e1; }
+        .url-bar { background: white; padding: .4rem .8rem; border-radius: 4px; flex: 1; font-size: .8rem; color: #64748b; border: 1px solid #cbd5e1; font-family: monospace; }
+        .browser-content { padding: 2rem; min-height: 200px; }
+        .input-group { display: flex; gap: .5rem; margin: 1rem 0; }
+        .input { padding: .75rem; border: 2px solid #cbd5e1; border-radius: 4px; width: 100%; font-family: monospace; }
+        .btn { padding: .75rem 1.5rem; background: var(--info); color: white; border: none; border-radius: 4px; cursor: pointer; transition: .3s; font-weight: 600; }
+        .btn:hover { background: #2563eb; transform: translateY(-1px); }
+        .btn-success { background: var(--success); width: 100%; padding: 1rem; margin-top: 1rem; font-size: 1rem; }
+        .btn-success:hover { background: #059669; }
+        .btn-success:disabled { background: #334155; opacity: .6; cursor: not-allowed; }
+        .result { margin-top: 1.5rem; padding: 1rem; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 4px; min-height: 80px; font-family: monospace; color: #334155; }
+        .toast { position: fixed; bottom: 20px; right: 20px; background: var(--dark2); border-left: 4px solid var(--success); color: white; padding: 15px 20px; border-radius: 4px; transform: translateX(150%); transition: .3s; z-index: 100; }
+        .toast.show { transform: translateX(0); }
+        .alert-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: none; align-items: center; justify-content: center; z-index: 50; }
+        .alert-box { background: white; padding: 1.5rem; border-radius: .5rem; max-width: 400px; text-align: center; color: var(--dark); }
         @media (max-width: 768px) {
-            .sidebar { 
-                position: fixed; 
-                transform: translateX(-100%); 
-                height: 100vh; 
-                width: 85%; 
-                top: 0;
-                left: 0;
-            }
-            .sidebar.mobile-open { 
-                transform: translateX(0); 
-            }
-            .mobile-header { 
-                display: flex; 
-            }
-            .stats-grid { 
-                grid-template-columns: 1fr; 
-            }
-            .input-group {
-                flex-direction: column;
-            }
-            .race-controls {
-                flex-direction: column;
-            }
-            .vulnerable-btn {
-                width: 100%;
-            }
-            .content-area {
-                padding: 1rem;
-            }
-            .lab-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-        @media (max-width: 480px) {
-            .sidebar {
-                width: 100%;
-            }
-            .toast {
-                min-width: auto;
-                width: calc(100% - 40px);
-                right: 20px;
-                left: 20px;
-            }
-        }
-        /* --- LOADING STATES --- */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        /* --- TOOLTIPS --- */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        .tooltip .tooltip-text {
-            visibility: hidden;
-            width: 200px;
-            background-color: var(--secondary-dark);
-            color: var(--text-primary);
-            text-align: center;
-            border-radius: 4px;
-            padding: 0.5rem;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.8rem;
-            border: 1px solid var(--border-dark);
-        }
-        .tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
-        /* --- BADGES --- */
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
-        }
-        .badge-success {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-        }
-        .badge-warning {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-        }
-        .badge-danger {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-        }
-        .badge-waf {
-            background: rgba(139, 92, 246, 0.2);
-            color: var(--waf);
+            .sidebar { position: fixed; transform: translateX(-100%); height: 100vh; width: 85%; z-index: 10; }
+            .sidebar.open { transform: translateX(0); }
+            .input-group { flex-direction: column; }
         }
     </style>
-</head>  
-    <body>
-    <div class="app-container">
-        <!-- Sidebar -->
+</head>
+<body>
+    <div class="app">
         <nav id="sidebar" class="sidebar">
             <div class="sidebar-header">
                 <i class="fa-solid fa-bug" style="color:var(--success)"></i>
                 <h1>BountyAcademy</h1>
             </div>
-            <!-- XP Panel -->
             <div class="xp-panel">
-                <div class="xp-info">
+                <div style="display:flex; justify-content:space-between; font-size:.75rem;">
                     <span>Niveau</span>
-                    <span id="user-level" class="badge badge-success">Novice</span>
+                    <span id="level" style="color:var(--success)">Novice</span>
                 </div>
                 <div class="xp-bar-container">
                     <div id="xp-bar" class="xp-bar"></div>
                 </div>
-                <div class="xp-info">
+                <div style="display:flex; justify-content:space-between; font-size:.75rem; color:var(--text2);">
                     <span id="current-xp">0 XP</span>
-                    <span id="next-level-xp">3000 XP</span>
+                    <span>3000 XP</span>
                 </div>
             </div>
-            <!-- Navigation -->
-            <div class="nav-section" id="nav-buttons">
-                <!-- Navigation buttons will be inserted here by JavaScript -->
-            </div>
-            <!-- Sidebar Footer -->
-            <div style="padding: 1rem; border-top: 1px solid var(--border-dark);">
-                <div class="xp-info" style="margin-bottom: 0.5rem;">
-                    <span>Progression totale</span>
-                </div>
-                <div style="font-size: 0.9rem; color: var(--text-secondary); text-align: center;">
-                    <span id="completed-count">0</span>/<span>8</span> labs complétés
-                </div>
-            </div>
+            <div class="nav-section" id="nav"></div>
         </nav>
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="mobile-header">
-                <span style="color:white; font-weight:bold;">BountyAcademy</span>
-                <button onclick="toggleSidebar()" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </div>
-            <div id="content-area" class="content-area">
-                <!-- Content will be inserted here by JavaScript -->
-            </div>
+        <main class="main">
+            <div id="content" class="content"></div>
         </main>
     </div>
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
-        <div class="toast-header">
-            <strong><i class="fa-solid fa-check-circle" style="color:var(--success)"></i> Succès</strong>
-            <button class="toast-close" onclick="hideToast()">
-                <i class="fa-solid fa-times"></i>
-            </button>
-        </div>
-        <span id="toast-message"></span>
-    </div>
-    <!-- Fake Alert for XSS Lab -->
-    <div id="fake-alert-overlay" class="fake-alert-overlay">
-        <div class="fake-alert-box">
-            <h3 style="color:var(--danger); margin-bottom:1rem;">
-                <i class="fa-solid fa-triangle-exclamation"></i> Alert
-            </h3>
-            <div class="code-block" style="margin-bottom:1rem;">
-                <pre>alert(1);</pre>
-            </div>
-            <p style="color:#64748b; margin-bottom:1rem; font-size:0.9rem;">
-                XSS Réussi! Une boîte de dialogue a été exécutée.
-            </p>
-            <button class="vulnerable-btn" onclick="closeFakeAlert()">OK</button>
+    <div id="toast" class="toast"><span id="toast-msg"></span></div>
+    <div id="alert" class="alert-overlay">
+        <div class="alert-box">
+            <h3 style="color:var(--danger); margin-bottom:1rem;">Alert</h3>
+            <div style="background:#1e293b; padding:1rem; border-radius:4px; margin-bottom:1rem; color:#e2e8f0;">alert(1);</div>
+            <button class="btn" onclick="closeAlert()">OK</button>
         </div>
     </div>
-            <script>
-        // --- APPLICATION STATE ---
-        const appState = {
+
+    <script>
+        const state = {
             xp: 0,
-            level: 1,
-            completedModules: [],
-            currentView: 'dashboard',
+            completed: [],
+            view: 'dashboard',
             raceStock: 5,
-            raceUserMoney: 1000,
-            raceInventory: 0,
-            userProfile: {
-                id: 1337,
-                name: "Hacker Apprenti",
-                email: "apprenti@bountyacademy.com",
-                role: "Étudiant"
-            }
+            raceMoney: 1000,
+            raceInventory: 0
         };
 
-        // --- MODULES DATA (8 labs, avec explications pédagogiques) ---
-        const modulesData = [
-            { 
-                id: 'xss', 
-                title: 'Lab 1: XSS Reflected', 
-                icon: 'code', 
-                color: '#10b981', 
-                xp: 200, 
-                level: 'Facile',
-                description: 'Injectez du JavaScript via un champ de recherche',
-                hint: 'Essayez: <code>&lt;script&gt;alert(1)&lt;/script&gt;</code>',
-                explanation: 'Le XSS permet d’exécuter du code dans le navigateur des victimes, menant au vol de sessions ou à du phishing.'
-            },
-            { 
-                id: 'idor', 
-                title: 'Lab 2: IDOR', 
-                icon: 'id-card', 
-                color: '#f59e0b', 
-                xp: 300, 
-                level: 'Moyen',
-                description: 'Accédez à des ressources sans autorisation',
-                hint: 'Changez l\'ID dans l\'URL pour accéder à d\'autres profils',
-                explanation: 'L’IDOR permet d’accéder aux données d’autres utilisateurs via des identifiants prévisibles.'
-            },
-            { 
-                id: 'sqli', 
-                title: 'Lab 3: SQL Injection', 
-                icon: 'database', 
-                color: '#ef4444', 
-                xp: 400, 
-                level: 'Intermédiaire',
-                description: 'Injectez des commandes SQL via un formulaire de login',
-                hint: 'Utilisez: <code>\' OR \'1\'=\'1</code> dans le mot de passe',
-                explanation: 'La SQL Injection permet de manipuler les requêtes SQL pour contourner l’authentification.'
-            },
-            { 
-                id: 'csrf', 
-                title: 'Lab 4: CSRF', 
-                icon: 'hand-pointer', 
-                color: '#3b82f6', 
-                xp: 400, 
-                level: 'Avancé',
-                description: 'Forgez une requête pour modifier des données',
-                hint: 'Créez un formulaire HTML qui s\'envoie automatiquement',
-                explanation: 'Le CSRF force un utilisateur authentifié à effectuer des actions non désirées.'
-            },
-            { 
-                id: 'xxe', 
-                title: 'Lab 5: XXE', 
-                icon: 'file-code', 
-                color: '#fbbf24', 
-                xp: 500, 
-                level: 'Expert',
-                description: 'Exploitez le traitement XML pour lire des fichiers système',
-                hint: 'Utilisez une entité externe: <code>&lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt;</code>',
-                explanation: 'L’XXE permet de lire des fichiers locaux via des parsers XML non sécurisés.'
-            },
-            { 
-                id: 'rc', 
-                title: 'Lab 6: Race Condition', 
-                icon: 'gauge-high', 
-                color: '#ef4444', 
-                xp: 600, 
-                level: 'Expert+',
-                description: 'Exploitez des conditions de course pour acheter plus que le stock',
-                hint: 'Envoyez plusieurs requêtes simultanées avant la mise à jour du stock',
-                explanation: 'Une condition de course se produit quand des opérations concurrentes ne sont pas atomiques.'
-            },
-            { 
-                id: 'lfi', 
-                title: 'Lab 7: LFI', 
-                icon: 'folder-open', 
-                color: '#34d399', 
-                xp: 600, 
-                level: 'Intermédiaire',
-                description: 'Lisez des fichiers locaux via des inclusions de fichiers',
-                hint: 'Utilisez: <code>../../../etc/passwd</code>',
-                explanation: 'Le LFI permet de lire des fichiers sensibles sur le serveur via des paramètres non filtrés.'
-            },
-            { 
-                id: 'waf', 
-                title: 'Lab 8: WAF Bypass', 
-                icon: 'shield-alt', 
-                color: '#8b5cf6', 
-                xp: 700, 
-                level: 'Expert++',
-                description: 'Contournez un pare-feu applicatif pour exécuter du XSS',
-                hint: 'Essayez: <code>&lt;img src=x onerror=alert(1)&gt;</code>',
-                explanation: 'Les WAF peuvent être contournés par de l’obfuscation ou des vecteurs alternatifs comme <code>&lt;img&gt;</code>.'
-            }
+        const modules = [
+            { id: 'xss', title: 'XSS Reflected', icon: 'code', xp: 200, level: 'Facile', desc: 'Injectez du JavaScript', hint: '&lt;script&gt;alert(1)&lt;/script&gt;' },
+            { id: 'idor', title: 'IDOR', icon: 'id-card', xp: 300, level: 'Moyen', desc: 'Accédez au profil admin (ID 1234)', hint: 'Changez l ID dans l URL' },
+            { id: 'sqli', title: 'SQL Injection', icon: 'database', xp: 400, level: 'Intermédiaire', desc: 'Contournez l authentification', hint: 'OR 1=1' },
+            { id: 'csrf', title: 'CSRF', icon: 'hand-pointer', xp: 400, level: 'Avancé', desc: 'Forgez une requête malveillante', hint: 'Créez un formulaire auto-submit' },
+            { id: 'xxe', title: 'XXE', icon: 'file-code', xp: 500, level: 'Expert', desc: 'Lisez /etc/passwd via XML', hint: 'ENTITY SYSTEM file' },
+            { id: 'rc', title: 'Race Condition', icon: 'gauge-high', xp: 600, level: 'Expert+', desc: 'Achetez plus que le stock', hint: 'Envoyez 10 requêtes simultanées' },
+            { id: 'lfi', title: 'LFI', icon: 'folder-open', xp: 600, level: 'Intermédiaire', desc: 'Lisez des fichiers locaux', hint: '../../../etc/passwd' },
+            { id: 'waf', title: 'WAF Bypass', icon: 'shield-alt', xp: 700, level: 'Expert++', desc: 'Contournez le WAF', hint: '&lt;img src=x onerror=alert(1)&gt;' }
         ];
 
-        // --- UTILITY FUNCTIONS ---
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        const esc = t => { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; };
+
+        function renderDashboard() {
+            let html = '<h2 style="font-size:2rem; margin-bottom:2rem; background:linear-gradient(90deg,var(--info),var(--success)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Tableau de bord</h2>';
+            html += '<div class="stats-grid">';
+            html += '<div class="stat-card"><div style="color:var(--text2); margin-bottom:.5rem;"><i class="fa-solid fa-medal"></i> XP Total</div>';
+            html += '<div style="font-size:1.8rem; font-weight:bold;">' + state.xp + '</div></div>';
+            html += '<div class="stat-card"><div style="color:var(--text2); margin-bottom:.5rem;"><i class="fa-solid fa-flag-checkered"></i> Labs Terminés</div>';
+            html += '<div style="font-size:1.8rem; font-weight:bold;">' + state.completed.length + '/8</div></div></div>';
+            html += '<h3 style="margin-bottom:1.5rem;"><i class="fa-solid fa-list-check"></i> Modules disponibles</h3>';
+            
+            modules.forEach(m => {
+                const done = state.completed.includes(m.id) ? ' ✓' : '';
+                html += '<div class="module-card" onclick="nav(\'' + m.id + '\')">';
+                html += '<div style="display:flex; gap:1rem; align-items:center;">';
+                html += '<i class="fa-solid fa-' + m.icon + '" style="font-size:1.5rem; color:var(--info);"></i>';
+                html += '<div><h4 style="margin:0;">' + m.title + '</h4>';
+                html += '<div style="font-size:.8rem; color:var(--text2);">' + m.level + ' • ' + m.xp + ' XP' + done + '</div></div></div>';
+                html += '<i class="fa-solid fa-chevron-right" style="color:var(--border);"></i></div>';
+            });
+            
+            return html;
         }
 
-        function getBackButton() {
-            return `
-                <button onclick="navigateTo('dashboard')" class="vulnerable-btn" style="margin-bottom:1.5rem;">
-                    <i class="fa-solid fa-arrow-left"></i> Retour au tableau de bord
-                </button>
-            `;
+        function renderLab(id, content) {
+            const m = modules.find(x => x.id === id);
+            const isDone = state.completed.includes(id);
+            let html = '<button onclick="nav(\'dashboard\')" class="btn" style="margin-bottom:1.5rem;"><i class="fa-solid fa-arrow-left"></i> Retour</button>';
+            html += '<h2 style="margin-bottom:.5rem;">' + m.title + '</h2>';
+            html += '<div style="color:var(--text2); margin-bottom:1rem;">' + m.desc + '</div>';
+            html += '<div class="lab-container">';
+            html += '<div style="padding:1rem; background:rgba(59,130,246,.1); border-radius:.5rem; margin-bottom:1rem;">';
+            html += '<strong style="color:var(--info);">Mission:</strong> ' + m.desc + '</div>';
+            html += '<div class="lab-browser"><div class="browser-bar">';
+            html += '<div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>';
+            html += '<div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>';
+            html += '<div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>';
+            html += '<div class="url-bar">https://vulnerable-site.com/' + id + '</div></div>';
+            html += '<div class="browser-content">' + content + '</div></div>';
+            html += '<div style="padding:1rem; background:#f1f5f9; border-radius:4px; margin-top:1rem; color:#334155;">';
+            html += '<strong>💡 Indice:</strong> ' + m.hint + '</div></div>';
+            html += '<button class="btn-success" onclick="validate(\'' + id + '\')" ' + (isDone ? 'disabled' : '') + '>';
+            html += (isDone ? '✓ Déjà validé' : '🏆 Valider') + '</button>';
+            return html;
         }
 
-        function getValidateButton(moduleId) {
-            const completed = appState.completedModules.includes(moduleId);
-            const module = modulesData.find(m => m.id === moduleId);
-            const buttonText = completed ? 
-                '<i class="fa-solid fa-check-circle"></i> Déjà validé' : 
-                '<i class="fa-solid fa-trophy"></i> Valider le lab';
-            return `
-                <div style="margin-top: 2rem;">
-                    <button class="action-btn" onclick="validateModule('${moduleId}')" ${completed ? 'disabled' : ''}>
-                        ${buttonText}
-                    </button>
-                    ${completed ? `
-                        <div style="text-align: center; margin-top: 0.5rem; color: var(--success);">
-                            <i class="fa-solid fa-check"></i> ${module.xp} XP obtenus
-                        </div>
-                    ` : ''}
-                </div>
-            `;
+        function renderXSS() {
+            const content = '<div class="input-group"><input id="in" class="input" placeholder="Recherche...">';
+            return renderLab('xss', content + '<button onclick="runXSS()" class="btn">Rechercher</button></div><div id="out" class="result">Résultats apparaîtront ici</div>');
         }
 
-        // --- VIEW RENDERING ---
-        const views = {
-            dashboard: () => {
-                const progress = Math.round((appState.completedModules.length / modulesData.length) * 100);
-                return `
-                    <h2 class="dashboard-title">Tableau de bord</h2>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div style="color:var(--text-secondary); margin-bottom:0.5rem;">
-                                <i class="fa-solid fa-medal"></i> XP Total
-                            </div>
-                            <div style="font-size:1.8rem; font-weight:bold; color:white;">${appState.xp}</div>
-                            <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.5rem;">
-                                Prochain niveau: ${3000 - appState.xp} XP
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div style="color:var(--text-secondary); margin-bottom:0.5rem;">
-                                <i class="fa-solid fa-flag-checkered"></i> Labs Terminés
-                            </div>
-                            <div style="font-size:1.8rem; font-weight:bold; color:white;">${appState.completedModules.length}/8</div>
-                            <div style="margin-top:0.5rem;">
-                                <div style="background:#334155; height:4px; border-radius:2px; overflow:hidden;">
-                                    <div style="background:var(--success); height:100%; width:${progress}%; transition:width 0.5s;"></div>
-                                </div>
-                                <div style="font-size:0.8rem; color:var(--text-secondary); text-align:right; margin-top:0.25rem;">
-                                    ${progress}%
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 style="color:white; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem;">
-                        <i class="fa-solid fa-list-check"></i> Modules disponibles
-                    </h3>
-                    <div style="margin-bottom:1rem; color:var(--text-secondary);">
-                        Cliquez sur un module pour commencer le lab
-                    </div>
-                    ${modulesData.map(module => {
-                        const isCompleted = appState.completedModules.includes(module.id);
-                        const borderColor = isCompleted ? '#10b981' : '#475569';
-                        return `
-                            <div class="module-card" onclick="navigateTo('module-${module.id}')" style="border-color:${borderColor}">
-                                <div style="display:flex; align-items:center; gap:1rem;">
-                                    <div class="module-icon" style="color:${module.color}">
-                                        <i class="fa-solid fa-${module.icon}"></i>
-                                    </div>
-                                    <div>
-                                        <h4 style="color:white; margin:0;">${module.title}</h4>
-                                        <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.25rem;">
-                                            <span style="font-size:0.8rem; color:#94a3b8;">${module.level}</span>
-                                            <span style="font-size:0.8rem; color:${module.color}">• ${module.xp} XP</span>
-                                            ${isCompleted ? 
-                                                '<span style="font-size:0.7rem; color:var(--success);"><i class="fa-solid fa-check"></i> Complété</span>' : 
-                                                ''
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-chevron-right" style="color:#475569"></i>
-                            </div>
-                        `;
-                    }).join('')}
-                `;
-            },
-            // --- LAB 8 : WAF BYPASS ---
-            'module-waf': () => {
-                const module = modulesData.find(m => m.id === 'waf');
-                return `
-                    ${getBackButton()}
-                    <div class="lab-header">
-                        <div>
-                            <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
-                            <div style="color:var(--text-secondary);">${module.description}</div>
-                            <div style="color:#fbbf24; font-size:0.9rem; margin-top:0.25rem;">
-                                💡 ${module.explanation}
-                            </div>
-                        </div>
-                        <span class="lab-difficulty">${module.level}</span>
-                    </div>
-                    <div class="lab-container">
-                        <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(139, 92, 246, 0.1); border-radius:0.5rem; border:1px solid rgba(139, 92, 246, 0.3);">
-                            <div style="display:flex; align-items:center; gap:0.5rem; color:#8b5cf6; margin-bottom:0.5rem;">
-                                <i class="fa-solid fa-bullseye"></i>
-                                <strong>Mission</strong>
-                            </div>
-                            <div style="color:var(--text-primary);">
-                                Faire apparaître une <code>alert(1)</code> malgré un WAF actif.
-                            </div>
-                        </div>
-                        <div class="lab-browser">
-                            <div class="browser-bar">
-                                <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
-                                <div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>
-                                <div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>
-                                <div class="url-bar">https://secured-site.com/search</div>
-                            </div>
-                            <div class="browser-content">
-                                <h3 style="color:#334155; margin-bottom:1rem;">Recherche (WAF activé)</h3>
-                                <div class="input-group">
-                                    <input type="text" id="waf-input" class="vulnerable-input" placeholder="Entrez votre payload..." value="">
-                                    <button onclick="runWAFBypass()" class="vulnerable-btn">Rechercher</button>
-                                </div>
-                                <div id="waf-result" style="margin-top:1.5rem; padding:1rem; border:1px solid #e2e8f0; border-radius:4px; min-height:80px;">
-                                    <div style="color:#64748b; text-align:center; padding:1rem;">
-                                        Résultats de recherche apparaîtront ici
-                                    </div>
-                                </div>
-                                <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
-                                    <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
-                                        <i class="fa-solid fa-lightbulb"></i>
-                                        <strong>Indice</strong>
-                                    </div>
-                                    <div style="color:#334155; font-size:0.9rem;">
-                                        ${module.hint}
-                                    </div>
-                                    <div style="margin-top:0.5rem; font-size:0.8rem; color:#94a3b8;">
-                                        Le WAF bloque : &lt;script&gt;, alert(, javascript:, onerror=
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    ${getValidateButton('waf')}
-                `;
-            }
-        };
-
-        // --- LABS EXISTANTS (copiés depuis ton fichier, fonctionnels) ---
-        views['module-xss'] = () => { const module = modulesData.find(m => m.id === 'xss'); return `
-            ${getBackButton()}
-            <div class="lab-header">
-                <div>
-                    <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
-                    <div style="color:var(--text-secondary);">${module.description}</div>
-                </div>
-                <span class="lab-difficulty">${module.level}</span>
-            </div>
-            <div class="lab-container">
-                <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(59, 130, 246, 0.1); border-radius:0.5rem; border:1px solid rgba(59, 130, 246, 0.3);">
-                    <div style="display:flex; align-items:center; gap:0.5rem; color:var(--info); margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-bullseye"></i>
-                        <strong>Mission</strong>
-                    </div>
-                    <div style="color:var(--text-primary);">
-                        Faire apparaître une <code>alert(1)</code> via le champ de recherche.
-                    </div>
-                </div>
-                <div class="lab-browser">
-                    <div class="browser-bar">
-                        <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>
-                        <div class="url-bar">https://vulnerable-site.com/search</div>
-                    </div>
-                    <div class="browser-content">
-                        <h3 style="color:#334155; margin-bottom:1rem;">Recherche sur le site</h3>
-                        <div class="input-group">
-                            <input type="text" id="xss-input" class="vulnerable-input" placeholder="Entrez votre recherche..." value="">
-                            <button onclick="runXSS()" class="vulnerable-btn">Rechercher</button>
-                        </div>
-                        <div id="xss-result" style="margin-top:1.5rem; padding:1rem; border:1px solid #e2e8f0; border-radius:4px; min-height:80px;">
-                            <div style="color:#64748b; text-align:center; padding:1rem;">
-                                Résultats de recherche apparaîtront ici
-                            </div>
-                        </div>
-                        <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
-                            <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
-                                <i class="fa-solid fa-lightbulb"></i>
-                                <strong>Indice</strong>
-                            </div>
-                            <div style="color:#334155; font-size:0.9rem;">
-                                ${module.hint}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            ${getValidateButton('xss')}
-        `; };
-
-        views['module-idor'] = () => { const module = modulesData.find(m => m.id === 'idor'); return `
-            ${getBackButton()}
-            <div class="lab-header">
-                <div>
-                    <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
-                    <div style="color:var(--text-secondary);">${module.description}</div>
-                </div>
-                <span class="lab-difficulty">${module.level}</span>
-            </div>
-            <div class="lab-container">
-                <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(245, 158, 11, 0.1); border-radius:0.5rem; border:1px solid rgba(245, 158, 11, 0.3);">
-                    <div style="display:flex; align-items:center; gap:0.5rem; color:var(--warning); margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-bullseye"></i>
-                        <strong>Mission</strong>
-                    </div>
-                    <div style="color:var(--text-primary);">
-                        Accédez au profil administrateur (ID 1234). Votre ID est ${appState.userProfile.id}.
-                    </div>
-                </div>
-                <div class="lab-browser">
-                    <div class="browser-bar">
-                        <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>
-                        <div class="url-bar" id="idor-url">https://vulnerable-site.com/profile?id=${appState.userProfile.id}</div>
-                    </div>
-                    <div class="browser-content">
-                        <h3 style="color:#334155; margin-bottom:1rem;">Gestion des profils</h3>
-                        <div style="margin:1rem 0;">
-                            <label style="display:block; color:#334155; margin-bottom:0.5rem; font-weight:600;">
-                                ID du profil à afficher:
-                            </label>
-                            <div class="input-group">
-                                <input type="number" id="idor-input" class="vulnerable-input" value="${appState.userProfile.id}" min="1" max="9999">
-                                <button onclick="loadIDORProfile()" class="vulnerable-btn">
-                                    <i class="fa-solid fa-user"></i> Charger
-                                </button>
-                            </div>
-                        </div>
-                        <div id="idor-profile" class="profile-card">
-                        </div>
-                        <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
-                            <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
-                                <i class="fa-solid fa-lightbulb"></i>
-                                <strong>Indice</strong>
-                            </div>
-                            <div style="color:#334155; font-size:0.9rem;">
-                                ${module.hint}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            ${getValidateButton('idor')}
-        `; };
-
-        views['module-sqli'] = () => { const module = modulesData.find(m => m.id === 'sqli'); return `
-            ${getBackButton()}
-            <div class="lab-header">
-                <div>
-                    <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
-                    <div style="color:var(--text-secondary);">${module.description}</div>
-                </div>
-                <span class="lab-difficulty">${module.level}</span>
-            </div>
-            <div class="lab-container">
-                <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(239, 68, 68, 0.1); border-radius:0.5rem; border:1px solid rgba(239, 68, 68, 0.3);">
-                    <div style="display:flex; align-items:center; gap:0.5rem; color:var(--danger); margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-bullseye"></i>
-                        <strong>Mission</strong>
-                    </div>
-                    <div style="color:var(--text-primary);">
-                        Connectez-vous en tant qu'administrateur sans connaître le mot de passe.
-                    </div>
-                </div>
-                <div class="lab-browser">
-                    <div class="browser-bar">
-                        <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>
-                        <div class="url-bar">https://vulnerable-site.com/login</div>
-                    </div>
-                    <div class="browser-content">
-                        <h3 style="color:#334155; margin-bottom:1rem;">Connexion administrateur</h3>
-                        <div style="margin:1rem 0;">
-                            <div style="margin-bottom:1rem;">
-                                <label style="display:block; color:#334155; margin-bottom:0.25rem;">Nom d'utilisateur:</label>
-                                <input type="text" id="sqli-user" class="vulnerable-input" placeholder="admin" value="admin">
-                            </div>
-                            <div style="margin-bottom:1rem;">
-                                <label style="display:block; color:#334155; margin-bottom:0.25rem;">Mot de passe:</label>
-                                <input type="password" id="sqli-pass" class="vulnerable-input" placeholder="Entrez le mot de passe" value="">
-                            </div>
-                            <button onclick="runSQLI()" class="vulnerable-btn" style="width:100%;">
-                                <i class="fa-solid fa-sign-in-alt"></i> Se connecter
-                            </button>
-                        </div>
-                        <div id="sqli-result" class="result-container">
-                            <div style="color:#64748b; text-align:center; padding:1rem;">
-                                Résultat de la connexion apparaîtra ici
-                            </div>
-                        </div>
-                        <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
-                            <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
-                                <i class="fa-solid fa-lightbulb"></i>
-                                <strong>Indice</strong>
-                            </div>
-                            <div style="color:#334155; font-size:0.9rem;">
-                                ${module.hint}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            ${getValidateButton('sqli')}
-        `; };
-
-        views['module-csrf'] = () => { const module = modulesData.find(m => m.id === 'csrf'); return `
-            ${getBackButton()}
-            <div class="lab-header">
-                <div>
-                    <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
-                    <div style="color:var(--text-secondary);">${module.description}</div>
-                </div>
-                <span class="lab-difficulty">${module.level}</span>
-            </div>
-            <div class="lab-container">
-                <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(59, 130, 246, 0.1); border-radius:0.5rem; border:1px solid rgba(59, 130, 246, 0.3);">
-                    <div style="display:flex; align-items:center; gap:0.5rem; color:var(--info); margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-bullseye"></i>
-                        <strong>Mission</strong>
-                    </div>
-                    <div style="color:var(--text-primary);">
-                        Forgez une requête pour changer l'email de l'administrateur.
-                    </div>
-                </div>
-                <div class="lab-browser">
-                    <div class="browser-bar">
-                        <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>
-                        <div class="url-bar">https://victim-site.com/account</div>
-                    </div>
-                    <div class="browser-content">
-                        <h3 style="color:#334155; margin-bottom:1rem;">Changer l'adresse email</h3>
-                        <div style="margin:1rem 0;">
-                            <div style="margin-bottom:1rem;">
-                                <label style="display:block; color:#334155; margin-bottom:0.25rem;">Nouvel email:</label>
-                                <input type="email" id="csrf-email" class="vulnerable-input" placeholder="hacker@evil.com" value="hacker@evil.com">
-                            </div>
-                            <button onclick="submitCSRF()" class="vulnerable-btn" style="width:100%;">
-                                <i class="fa-solid fa-envelope"></i> Changer l'email
-                            </button>
-                        </div>
-                        <div id="csrf-result" style="margin-top:1.5rem;">
-                        </div>
-                        <div style="margin-top:2rem; border-top:1px solid #cbd5e1; padding-top:1rem;">
-                            <h4 style="color:#334155; margin-bottom:0.5rem;">
-                                <i class="fa-solid fa-code"></i> Code malveillant CSRF
-                            </h4>
-                            <div class="code-block">
-                                <pre>&lt;form action="https://victim-site.com/change-email" method="POST" id="csrf-form"&gt;
-    &lt;input type="hidden" name="email" value="hacker@evil.com"&gt;
-&lt;/form&gt;
-&lt;script&gt;
-    document.getElementById('csrf-form').submit();
-&lt;/script&gt;</pre>
-                            </div>
-                            <div style="color:#64748b; font-size:0.8rem; margin-top:0.5rem;">
-                                Ce code peut être placé sur un site malveillant que la victime visitera.
-                            </div>
-                        </div>
-                        <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
-                            <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
-                                <i class="fa-solid fa-lightbulb"></i>
-                                <strong>Indice</strong>
-                            </div>
-                            <div style="color:#334155; font-size:0.9rem;">
-                                ${module.hint}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            ${getValidateButton('csrf')}
-        `; };
-
-        views['module-xxe'] = () => { const module = modulesData.find(m => m.id === 'xxe'); const defaultXML = `<?xml version="1.0"?>
-<user>
-    <name>John Doe</name>
-    <email>john@example.com</email>
-</user>`; return `
-            ${getBackButton()}
-            <div class="lab-header">
-                <div>
-                    <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
-                    <div style="color:var(--text-secondary);">${module.description}</div>
-                </div>
-                <span class="lab-difficulty">${module.level}</span>
-            </div>
-            <div class="lab-container">
-                <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(251, 191, 36, 0.1); border-radius:0.5rem; border:1px solid rgba(251, 191, 36, 0.3);">
-                    <div style="display:flex; align-items:center; gap:0.5rem; color:#fbbf24; margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-bullseye"></i>
-                        <strong>Mission</strong>
-                    </div>
-                    <div style="color:var(--text-primary);">
-                        Exfiltrer le contenu de /etc/passwd via une injection XML.
-                    </div>
-                </div>
-                <div class="lab-browser">
-                    <div class="browser-bar">
-                        <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>
-                        <div class="url-bar">https://vulnerable-site.com/xml-parser</div>
-                    </div>
-                    <div class="browser-content">
-                        <h3 style="color:#334155; margin-bottom:1rem;">Parseur XML</h3>
-                        <div style="margin:1rem 0;">
-                            <label style="display:block; color:#334155; margin-bottom:0.5rem; font-weight:600;">
-                                Contenu XML:
-                            </label>
-                            <textarea id="xxe-input" class="vulnerable-input" placeholder="Collez votre XML ici..." 
-                                      style="width:100%; height:180px; font-family:monospace; font-size:0.9rem; resize:vertical;" 
-                                      rows="8">${escapeHtml(defaultXML)}</textarea>
-                            <button onclick="parseXXE()" class="vulnerable-btn" style="width:100%; margin-top:0.5rem;">
-                                <i class="fa-solid fa-code"></i> Parser XML
-                            </button>
-                        </div>
-                        <div id="xxe-result" class="result-container">
-                            <div style="color:#64748b; text-align:center; padding:1rem;">
-                                Résultat du parsing apparaîtra ici
-                            </div>
-                        </div>
-                        <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
-                            <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
-                                <i class="fa-solid fa-lightbulb"></i>
-                                <strong>Indice</strong>
-                            </div>
-                            <div style="color:#334155; font-size:0.9rem;">
-                                ${module.hint}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            ${getValidateButton('xxe')}
-        `; };
-
-        views['module-rc'] = () => { const module = modulesData.find(m => m.id === 'rc'); return `
-            ${getBackButton()}
-            <div class="lab-header">
-                <div>
-                    <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
-                    <div style="color:var(--text-secondary);">${module.description}</div>
-                </div>
-                <span class="lab-difficulty">${module.level}</span>
-            </div>
-            <div class="lab-container">
-                <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(239, 68, 68, 0.1); border-radius:0.5rem; border:1px solid rgba(239, 68, 68, 0.3);">
-                    <div style="display:flex; align-items:center; gap:0.5rem; color:var(--danger); margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-bullseye"></i>
-                        <strong>Mission</strong>
-                    </div>
-                    <div style="color:var(--text-primary);">
-                        Achetez plus de produits que le stock disponible en exploitant une condition de course.
-                    </div>
-                </div>
-                <div class="lab-browser">
-                    <div class="browser-bar">
-                        <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>
-                        <div class="url-bar">https://vulnerable-shop.com/product/premium-key</div>
-                    </div>
-                    <div class="browser-content">
-                        <h3 style="color:#334155; margin-bottom:1rem;">Boutique Premium</h3>
-                        <div style="margin:1rem 0; padding:1.5rem; background:#f0fdf4; border-radius:8px; border:1px solid #bbf7d0;">
-                            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem;">
-                                <div>
-                                    <div style="color:#64748b; font-size:0.8rem; margin-bottom:0.25rem;">Produit</div>
-                                    <div style="color:#334155; font-weight:600;">Clé de licence premium</div>
-                                </div>
-                                <div>
-                                    <div style="color:#64748b; font-size:0.8rem; margin-bottom:0.25rem;">Prix</div>
-                                    <div style="color:#334155; font-weight:600;">100€</div>
-                                </div>
-                                <div>
-                                    <div style="color:#64748b; font-size:0.8rem; margin-bottom:0.25rem;">Stock</div>
-                                    <div style="color:#334155; font-weight:600;"><span id="stock-count">${appState.raceStock}</span> unités</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="margin:1.5rem 0; padding:1rem; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;">
-                            <div style="color:#334155; font-weight:600; margin-bottom:0.5rem;">Votre compte</div>
-                            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:1rem;">
-                                <div>
-                                    <div style="color:#64748b; font-size:0.8rem;">Argent disponible</div>
-                                    <div style="color:#334155; font-weight:600;"><span id="user-money">${appState.raceUserMoney}</span>€</div>
-                                </div>
-                                <div>
-                                    <div style="color:#64748b; font-size:0.8rem;">Inventaire</div>
-                                    <div style="color:#334155; font-weight:600;"><span id="user-inventory">${appState.raceInventory}</span> clés</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="race-controls">
-                            <button onclick="buyProduct()" class="vulnerable-btn" style="flex:1;">
-                                <i class="fa-solid fa-cart-shopping"></i> Acheter 1 unité
-                            </button>
-                            <button onclick="startRaceCondition()" class="vulnerable-btn" style="flex:1; background:var(--danger);">
-                                <i class="fa-solid fa-bolt"></i> Lancer 10 requêtes simultanées
-                            </button>
-                        </div>
-                        <div style="margin:1.5rem 0;">
-                            <div style="color:#334155; margin-bottom:0.5rem; font-weight:600;">Progression des requêtes:</div>
-                            <div class="race-track" id="race-track">
-                                <div class="race-progress" id="race-progress"></div>
-                            </div>
-                        </div>
-                        <div id="race-output" class="result-container">
-                            <div style="color:#64748b; text-align:center; padding:1rem;">
-                                Les résultats des achats apparaîtront ici
-                            </div>
-                        </div>
-                        <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
-                            <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
-                                <i class="fa-solid fa-lightbulb"></i>
-                                <strong>Indice</strong>
-                            </div>
-                            <div style="color:#334155; font-size:0.9rem;">
-                                ${module.hint}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            ${getValidateButton('rc')}
-        `; };
-
-        views['module-lfi'] = () => { const module = modulesData.find(m => m.id === 'lfi'); return `
-            ${getBackButton()}
-            <div class="lab-header">
-                <div>
-                    <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
-                    <div style="color:var(--text-secondary);">${module.description}</div>
-                </div>
-                <span class="lab-difficulty">${module.level}</span>
-            </div>
-            <div class="lab-container">
-                <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(52, 211, 153, 0.1); border-radius:0.5rem; border:1px solid rgba(52, 211, 153, 0.3);">
-                    <div style="display:flex; align-items:center; gap:0.5rem; color:#34d399; margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-bullseye"></i>
-                        <strong>Mission</strong>
-                    </div>
-                    <div style="color:var(--text-primary);">
-                        Lire le fichier /etc/passwd via une inclusion de fichier local.
-                    </div>
-                </div>
-                <div class="lab-browser">
-                    <div class="browser-bar">
-                        <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>
-                        <div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>
-                        <div class="url-bar">https://vulnerable-site.com/view</div>
-                    </div>
-                    <div class="browser-content">
-                        <h3 style="color:#334155; margin-bottom:1rem;">Visualiseur de fichiers</h3>
-                        <div style="margin:1rem 0;">
-                            <label style="display:block; color:#334155; margin-bottom:0.5rem; font-weight:600;">
-                                Nom du fichier à afficher:
-                            </label>
-                            <div class="input-group">
-                                <input type="text" id="lfi-input" class="vulnerable-input" placeholder="welcome.txt" value="welcome.txt">
-                                <button onclick="loadLFI()" class="vulnerable-btn">
-                                    <i class="fa-solid fa-eye"></i> Afficher
-                                </button>
-                            </div>
-                            <div style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">
-                                Exemples: welcome.txt, about.php, config.ini
-                            </div>
-                        </div>
-                        <div id="lfi-result" class="result-container">
-                            <div style="color:#64748b; text-align:center; padding:1rem;">
-                                Le contenu du fichier apparaîtra ici
-                            </div>
-                        </div>
-                        <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
-                            <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
-                                <i class="fa-solid fa-lightbulb"></i>
-                                <strong>Indice</strong>
-                            </div>
-                            <div style="color:#334155; font-size:0.9rem;">
-                                ${module.hint}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            ${getValidateButton('lfi')}
-        `; };
-
-        // --- LAB FUNCTION : WAF BYPASS ---
-        function runWAFBypass() {
-            const input = document.getElementById('waf-input').value;
-            const resultDiv = document.getElementById('waf-result');
-
-            // WAF simulé : bloque les payloads classiques
-            const blockedPatterns = [
-                /<script/i,
-                /javascript:/i,
-                /onerror\s*=/i,
-                /alert\s*\(/i,
-                /<\/script>/i
-            ];
-            const isBlocked = blockedPatterns.some(pattern => pattern.test(input));
-
-            if (isBlocked) {
-                resultDiv.innerHTML = `
-                    <div style="color:#dc2626; font-weight:600;">
-                        <i class="fa-solid fa-shield-alt"></i> WAF : Requête bloquée
-                    </div>
-                    <div style="color:#334155; margin-top:0.5rem;">
-                        Le pare-feu a détecté un payload malveillant.
-                    </div>
-                    <div style="color:#64748b; font-size:0.9rem; margin-top:1rem;">
-                        Essayez d’obfusquer ou d’utiliser un vecteur alternatif.
-                    </div>
-                `;
-                return;
-            }
-
-            // Détecte les payloads de bypass
-            const bypassPatterns = [
-                /<img[^>]*onerror/i,
-                /<svg[^>]*onload/i,
-                /<body[^>]*onload/i
-            ];
-            const isBypass = bypassPatterns.some(pattern => pattern.test(input));
-
-            if (isBypass) {
-                resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
-                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace; margin-bottom:1rem;">
-                            ${escapeHtml(input)}
-                        </div>
-                        <div style="color:#16a34a; font-weight:600;">
-                            <i class="fa-solid fa-check-circle"></i> WAF contourné avec succès !
-                        </div>
-                    </div>
-                `;
-                showFakeAlert();
-                if (!appState.completedModules.includes('waf')) {
-                    validateModule('waf');
-                }
-            } else {
-                resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
-                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace;">
-                            ${escapeHtml(input)}
-                        </div>
-                        <div style="margin-top:1rem; color:#64748b; font-size:0.9rem;">
-                            Aucune injection détectée. Le WAF n’a pas été déclenché, mais pas de XSS non plus.
-                        </div>
-                    </div>
-                `;
-            }
+        function renderIDOR() {
+            const content = '<div class="input-group"><input id="in" type="number" class="input" value="1337">';
+            return renderLab('idor', content + '<button onclick="runIDOR()" class="btn">Charger</button></div><div id="out" class="result">Profil apparaîtra ici</div>');
         }
 
-        // --- LAB FUNCTIONS EXISTANTS ---
+        function renderSQLI() {
+            let content = '<input id="user" class="input" placeholder="Username" value="admin" style="margin-bottom:1rem;">';
+            content += '<input id="pass" type="password" class="input" placeholder="Password" style="margin-bottom:1rem;">';
+            content += '<button onclick="runSQLI()" class="btn" style="width:100%;">Se connecter</button>';
+            content += '<div id="out" class="result" style="margin-top:1rem;">Résultat apparaîtra ici</div>';
+            return renderLab('sqli', content);
+        }
+
+        function renderCSRF() {
+            let content = '<input id="in" type="email" class="input" placeholder="hacker@evil.com" value="hacker@evil.com" style="margin-bottom:1rem;">';
+            content += '<button onclick="runCSRF()" class="btn" style="width:100%;">Changer l email</button>';
+            content += '<div id="out" style="margin-top:1rem;"></div>';
+            return renderLab('csrf', content);
+        }
+
+        function renderXXE() {
+            let content = '<textarea id="in" class="input" style="height:150px; resize:vertical;" placeholder="XML...">';
+            content += '&lt;?xml version="1.0"?&gt;\n&lt;user&gt;\n  &lt;n&gt;John&lt;/n&gt;\n&lt;/user&gt;</textarea>';
+            content += '<button onclick="runXXE()" class="btn" style="width:100%; margin-top:.5rem;">Parser XML</button>';
+            content += '<div id="out" class="result">Résultat apparaîtra ici</div>';
+            return renderLab('xxe', content);
+        }
+
+        function renderRC() {
+            let content = '<div style="padding:1rem; background:#f0fdf4; border-radius:8px; margin-bottom:1rem;">';
+            content += '<div>Stock: <span id="stock">' + state.raceStock + '</span> • Argent: <span id="money">' + state.raceMoney + '</span>€ • Inventaire: <span id="inv">' + state.raceInventory + '</span></div></div>';
+            content += '<div style="display:flex; gap:.5rem;">';
+            content += '<button onclick="buy()" class="btn" style="flex:1;">Acheter 1</button>';
+            content += '<button onclick="race()" class="btn" style="flex:1; background:var(--danger);">10 requêtes</button></div>';
+            content += '<div id="out" class="result">Résultats apparaîtront ici</div>';
+            return renderLab('rc', content);
+        }
+
+        function renderLFI() {
+            const content = '<div class="input-group"><input id="in" class="input" placeholder="welcome.txt" value="welcome.txt">';
+            return renderLab('lfi', content + '<button onclick="runLFI()" class="btn">Afficher</button></div><div id="out" class="result">Contenu apparaîtra ici</div>');
+        }
+
+        function renderWAF() {
+            const content = '<div class="input-group"><input id="in" class="input" placeholder="Payload...">';
+            return renderLab('waf', content + '<button onclick="runWAF()" class="btn">Rechercher</button></div><div id="out" class="result">Résultats apparaîtront ici</div>');
+        }
+
         function runXSS() {
-            const input = document.getElementById('xss-input').value;
-            const resultDiv = document.getElementById('xss-result');
-            if (input.includes('<script>') && input.includes('alert(') || 
-                input.includes('alert(') && input.includes(')')) {
-                resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
-                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace; margin-bottom:1rem;">
-                            ${escapeHtml(input)}
-                        </div>
-                        <div style="color:#dc2626; font-weight:600;">
-                            <i class="fa-solid fa-triangle-exclamation"></i> Script exécuté avec succès!
-                        </div>
-                    </div>
-                `;
-                showFakeAlert();
-            } else {
-                resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
-                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace;">
-                            ${escapeHtml(input)}
-                        </div>
-                        <div style="margin-top:1rem; color:#64748b; font-size:0.9rem;">
-                            Aucun script JavaScript détecté dans la recherche.
-                        </div>
-                    </div>
-                `;
-            }
+            const v = document.getElementById('in').value;
+            const hasScript = v.indexOf('<script>') >= 0 && v.indexOf('alert(') >= 0;
+            document.getElementById('out').innerHTML = hasScript ? 
+                '<div style="color:var(--danger);">⚠️ Script exécuté!</div>' : 
+                'Recherche: ' + esc(v);
+            if (hasScript) showAlert();
         }
 
-        function loadIDORProfile() {
-            const profileId = document.getElementById('idor-input').value;
-            const profileDiv = document.getElementById('idor-profile');
-            const urlBar = document.getElementById('idor-url');
-            if (urlBar) urlBar.textContent = `https://vulnerable-site.com/profile?id=${profileId}`;
-            if (profileId === '1234') {
-                profileDiv.innerHTML = `
-                    <div style="border-bottom:1px solid #e2e8f0; padding-bottom:1rem; margin-bottom:1rem;">
-                        <h3 style="color:#334155;">Profil Administrateur</h3>
-                        ID: <span style="color:#334155; font-family:monospace;">1234</span>
-                    </div>
-                    ...
-                    <div style="margin-top:1.5rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
-                        <div style="color:#16a34a; font-weight:600;">
-                            <i class="fa-solid fa-check-circle"></i> IDOR Réussi !
-                        </div>
-                    </div>
-                `;
-            } else {
-                profileDiv.innerHTML = `
-                    <div style="border-bottom:1px solid #e2e8f0; padding-bottom:1rem; margin-bottom:1rem;">
-                        <h3 style="color:#334155;">Profil Utilisateur</h3>
-                        ID: <span style="color:#334155; font-family:monospace;">${profileId}</span>
-                    </div>
-                    ...
-                `;
-            }
+        function runIDOR() {
+            const v = document.getElementById('in').value;
+            document.getElementById('out').innerHTML = v === '1234' ? 
+                '<div style="color:var(--success);">✓ Profil Administrateur (ID: 1234)</div>' : 
+                'Profil Utilisateur (ID: ' + v + ')';
         }
 
         function runSQLI() {
-            const username = document.getElementById('sqli-user').value;
-            const password = document.getElementById('sqli-pass').value;
-            const resultDiv = document.getElementById('sqli-result');
-            if (password.includes("' OR '1'='1") || password.includes("' OR 1=1--")) {
-                resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="color:#16a34a; font-weight:600; margin-bottom:1rem;">
-                            <i class="fa-solid fa-check-circle"></i> Connexion réussie !
-                        </div>
-                        <table>...</table>
-                        <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
-                            <div style="color:#16a34a; font-weight:600;">
-                                <i class="fa-solid fa-database"></i> SQL Injection réussie !
-                            </div>
-                        </div>
-                    </div>
-                `;
+            const p = document.getElementById('pass').value;
+            const hasOR = p.indexOf(' OR ') >= 0 || p.indexOf(' or ') >= 0;
+            document.getElementById('out').innerHTML = hasOR ? 
+                '<div style="color:var(--success);">✓ Connexion réussie!</div>' : 
+                '<div style="color:var(--danger);">✗ Échec</div>';
+        }
+
+        function runCSRF() {
+            document.getElementById('out').innerHTML = '<div style="padding:1rem; background:#f0fdf4; border-radius:8px; color:var(--success);">✓ Email changé!</div>';
+        }
+
+        function runXXE() {
+            const v = document.getElementById('in').value;
+            const hasEntity = v.indexOf('ENTITY') >= 0 || v.indexOf('entity') >= 0;
+            const hasSystem = v.indexOf('SYSTEM') >= 0 || v.indexOf('system') >= 0;
+            const hasFile = v.indexOf('file:') >= 0;
+            document.getElementById('out').innerHTML = (hasEntity && hasSystem && hasFile) ? 
+                '<div style="color:var(--success);">✓ Fichier système lu!</div>' : 
+                '<div style="color:var(--danger);">✗ Erreur parsing</div>';
+        }
+
+        function buy() {
+            if (state.raceStock > 0 && state.raceMoney >= 100) {
+                state.raceStock--;
+                state.raceMoney -= 100;
+                state.raceInventory++;
+                updateRace();
+                document.getElementById('out').innerHTML = '<div style="color:var(--success);">Achat réussi</div>';
             } else {
-                resultDiv.innerHTML = `
-                    <div style="color:#dc2626; font-weight:600;">
-                        <i class="fa-solid fa-xmark-circle"></i> Échec de la connexion
-                    </div>
-                `;
+                document.getElementById('out').innerHTML = '<div style="color:var(--danger);">Impossible</div>';
             }
         }
 
-        function submitCSRF() {
-            const email = document.getElementById('csrf-email').value;
-            const resultDiv = document.getElementById('csrf-result');
-            resultDiv.innerHTML = `
-                <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:1.5rem; border-radius:8px;">
-                    <div style="color:#16a34a; font-weight:600; margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-check-circle"></i> Email changé avec succès !
-                    </div>
-                </div>
-            `;
+        function race() {
+            const bought = Math.min(10, state.raceStock + 3);
+            state.raceStock = 0;
+            state.raceMoney -= bought * 100;
+            state.raceInventory += bought;
+            updateRace();
+            document.getElementById('out').innerHTML = '<div style="background:#fee2e2; padding:1rem; border-radius:8px;">⚡ RACE CONDITION! Achats: ' + bought + '</div>';
         }
 
-        function parseXXE() {
-            const xmlInput = document.getElementById('xxe-input').value;
-            const resultDiv = document.getElementById('xxe-result');
-            if (xmlInput.includes('<!ENTITY') && xmlInput.includes('SYSTEM') && xmlInput.includes('file://')) {
-                resultDiv.innerHTML = `
-                    <div>...</div>
-                    <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
-                        <i class="fa-solid fa-file-code"></i> Fichier système lu avec succès
-                    </div>
-                `;
-            } else {
-                resultDiv.innerHTML = `
-                    <div style="color:#dc2626; font-weight:600;">
-                        <i class="fa-solid fa-xmark-circle"></i> Erreur de parsing XML
-                    </div>
-                `;
-            }
+        function updateRace() {
+            document.getElementById('stock').textContent = state.raceStock;
+            document.getElementById('money').textContent = state.raceMoney;
+            document.getElementById('inv').textContent = state.raceInventory;
         }
 
-        function updateRaceUI() {
-            document.getElementById('stock-count').textContent = appState.raceStock;
-            document.getElementById('user-money').textContent = appState.raceUserMoney;
-            document.getElementById('user-inventory').textContent = appState.raceInventory;
+        function runLFI() {
+            const v = document.getElementById('in').value;
+            const isPasswd = v.indexOf('../../../etc/passwd') >= 0 || v.indexOf('/etc/passwd') >= 0;
+            document.getElementById('out').innerHTML = v === 'welcome.txt' ? 
+                'Bienvenue!' : 
+                (isPasswd ? '<div style="color:var(--success);">✓ root:x:0:0:root:/root:/bin/bash...</div>' : 
+                '<div style="color:var(--danger);">Fichier introuvable</div>');
         }
 
-        function buyProduct() {
-            if (appState.raceStock > 0 && appState.raceUserMoney >= 100) {
-                appState.raceStock--;
-                appState.raceUserMoney -= 100;
-                appState.raceInventory++;
-                updateRaceUI();
-                document.getElementById('race-output').innerHTML = `<div style="color:#16a34a;">Achat réussi</div>`;
-            } else {
-                document.getElementById('race-output').innerHTML = `<div style="color:#dc2626;">Achat impossible</div>`;
-            }
-        }
-
-        function startRaceCondition() {
-            const initialStock = appState.raceStock;
-            const successfulBuys = Math.min(10, initialStock + 3);
-            appState.raceStock = 0;
-            appState.raceUserMoney -= successfulBuys * 100;
-            appState.raceInventory += successfulBuys;
-            updateRaceUI();
-            document.getElementById('race-output').innerHTML = `
-                <div style="background:#fee2e2; border:1px solid #fecaca; padding:1.5rem; border-radius:8px;">
-                    <i class="fa-solid fa-bolt"></i> RACE CONDITION RÉUSSIE !
-                    Achats validés: ${successfulBuys}
-                </div>
-            `;
-        }
-
-        function loadLFI() {
-            const input = document.getElementById('lfi-input').value;
-            const result = document.getElementById('lfi-result');
-            if (input === 'welcome.txt') {
-                result.innerHTML = `...`;
-            } else if (input.includes('../../../etc/passwd') || input.includes('/etc/passwd')) {
-                result.innerHTML = `
-                    <div>...</div>
-                    <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
-                        <i class="fa-solid fa-file-lines"></i> Fichier système lu avec succès
-                    </div>
-                `;
-            } else {
-                result.innerHTML = `<div style="color:#dc2626;">Fichier introuvable</div>`;
-            }
-        }
-
-        // --- NAVIGATION, XP, TOAST, etc. (fonctions standard) ---
-        function navigateTo(view) {
-            appState.currentView = view;
-            renderContent();
-            updateNavButtons();
-            updateXPBar();
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('mobile-open');
-            }
-            history.pushState({ view }, '', `#${view}`);
-        }
-
-        function renderContent() {
-            const contentArea = document.getElementById('content-area');
-            const viewFunction = views[appState.currentView];
-            if (viewFunction) {
-                contentArea.innerHTML = viewFunction();
-                if (appState.currentView === 'module-idor') loadIDORProfile();
-                else if (appState.currentView === 'module-rc') updateRaceUI();
-            } else {
-                contentArea.innerHTML = `
-                    <div style="text-align:center; padding:4rem 2rem;">
-                        <h2 style="color:white; margin-bottom:1rem;">Vue non trouvée</h2>
-                        <button onclick="navigateTo('dashboard')" class="vulnerable-btn">
-                            <i class="fa-solid fa-home"></i> Retour au tableau de bord
-                        </button>
-                    </div>
-                `;
-            }
-        }
-
-        function renderNavButtons() {
-            const navContainer = document.getElementById('nav-buttons');
-            let html = '';
-            html += `<button class="nav-btn ${appState.currentView === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">
-                <i class="fa-solid fa-gauge-high"></i> Tableau de bord
-            </button>`;
-            html += '<div style="color:var(--text-secondary); padding:1rem 1.5rem 0.5rem; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Labs</div>';
-            modulesData.forEach(module => {
-                const isCompleted = appState.completedModules.includes(module.id);
-                const isActive = appState.currentView === 'module-' + module.id;
-                html += `
-                    <button class="nav-btn ${isActive ? 'active' : ''}" onclick="navigateTo('module-${module.id}')">
-                        <i class="fa-solid fa-${module.icon}" style="color:${module.color}"></i>
-                        <span style="flex:1; text-align:left;">${module.title}</span>
-                        ${isCompleted ? '<span class="module-progress" style="color:var(--success);"><i class="fa-solid fa-check-circle"></i></span>' : '<span class="module-progress">' + module.xp + ' XP</span>'}
-                    </button>
-                `;
-            });
-            navContainer.innerHTML = html;
-        }
-
-        function updateNavButtons() {
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.querySelector(`.nav-btn[onclick*="navigateTo('${appState.currentView}')"]`);
-            if (activeBtn) activeBtn.classList.add('active');
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('mobile-open');
-        }
-
-        function updateXPBar() {
-            const xpPercentage = Math.min((appState.xp / 3000) * 100, 100);
-            document.getElementById('xp-bar').style.width = `${xpPercentage}%`;
-            let level, levelName;
-            if (appState.xp >= 3000) { level = 5; levelName = 'Expert'; }
-            else if (appState.xp >= 2000) { level = 4; levelName = 'Avancé'; }
-            else if (appState.xp >= 1000) { level = 3; levelName = 'Intermédiaire'; }
-            else if (appState.xp >= 500) { level = 2; levelName = 'Débutant'; }
-            else { level = 1; levelName = 'Novice'; }
-            appState.level = level;
-            document.getElementById('user-level').textContent = levelName;
-            document.getElementById('user-level').className = `badge badge-${level === 5 ? 'success' : level >= 3 ? 'warning' : 'danger'}`;
-            document.getElementById('current-xp').textContent = `${appState.xp} XP`;
-            document.getElementById('completed-count').textContent = appState.completedModules.length;
-            document.getElementById('next-level-xp').textContent = `${3000 - appState.xp} XP`;
-        }
-
-        function validateModule(moduleId) {
-            if (!appState.completedModules.includes(moduleId)) {
-                appState.completedModules.push(moduleId);
-                const module = modulesData.find(m => m.id === moduleId);
-                if (module) {
-                    appState.xp += module.xp;
-                    showToast(`Lab validé ! +${module.xp} XP obtenus.`);
-                }
-                updateXPBar();
-                saveProgress();
-                renderNavButtons();
-                renderContent();
-            }
-        }
-
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toast-message');
-            let icon = 'check-circle';
-            if (type === 'error') icon = 'exclamation-circle';
-            if (type === 'warning') icon = 'exclamation-triangle';
-            if (type === 'info') icon = 'info-circle';
-            document.querySelector('.toast-header strong').innerHTML = `
-                <i class="fa-solid fa-${icon}" style="color:${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : type === 'warning' ? 'var(--warning)' : 'var(--info)'}"></i>
-                ${type === 'success' ? 'Succès' : type === 'error' ? 'Erreur' : type === 'warning' ? 'Avertissement' : 'Information'}
-            `;
-            toastMessage.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => { hideToast(); }, 4000);
-        }
-
-        function hideToast() { document.getElementById('toast').classList.remove('show'); }
-        function showFakeAlert() { document.getElementById('fake-alert-overlay').style.display = 'flex'; }
-        function closeFakeAlert() { document.getElementById('fake-alert-overlay').style.display = 'none'; }
-
-        // --- PERSISTANCE ---
-        function saveProgress() {
-            localStorage.setItem('bountyAcademyProgress', JSON.stringify({
-                xp: appState.xp,
-                completedModules: appState.completedModules,
-                raceStock: appState.raceStock,
-                raceUserMoney: appState.raceUserMoney,
-                raceInventory: appState.raceInventory
-            }));
-        }
-
-        function loadSavedProgress() {
-            const saved = localStorage.getItem('bountyAcademyProgress');
-            if (saved) {
-                const progress = JSON.parse(saved);
-                appState.xp = progress.xp || 0;
-                appState.completedModules = progress.completedModules || [];
-                appState.raceStock = progress.raceStock || 5;
-                appState.raceUserMoney = progress.raceUserMoney || 1000;
-                appState.raceInventory = progress.raceInventory || 0;
-            }
-        }
-
-        // --- INITIALISATION UNIQUE ---
-        (function initApp() {
-            console.log("🚀 Lancement de BountyAcademy...");
-            try {
-                renderNavButtons();
-                updateXPBar();
-                loadSavedProgress();
-                const hash = window.location.hash.substring(1);
-                if (hash && views[hash]) {
-                    navigateTo(hash);
-                } else {
-                    navigateTo('dashboard');
-                }
-                window.addEventListener('popstate', function(event) {
-                    if (event.state && event.state.view) {
-                        navigateTo(event.state.view);
-                    }
-                });
-                console.log("✅ Application initialisée avec succès");
-            } catch (error) {
-                console.error("❌ Erreur d'initialisation:", error);
-                document.getElementById('content-area').innerHTML = `
-                    <div style="text-align:center; padding:2rem;">
-                        <h2>Erreur de chargement</h2>
-                        <p>Veuillez recharger la page</p>
-                        <button onclick="window.location.reload()" class="vulnerable-btn">Recharger</button>
-                    </div>
-                `;
-            }
-        })();
-    </script>
-                // --- LAB FUNCTION : WAF BYPASS ---
-        function runWAFBypass() {
-            const input = document.getElementById('waf-input').value;
-            const resultDiv = document.getElementById('waf-result');
-
-            // WAF simulé : bloque les payloads classiques
-            const blockedPatterns = [
-                /<script/i,
-                /javascript:/i,
-                /onerror\s*=/i,
-                /alert\s*\(/i,
-                /<\/script>/i
-            ];
-            const isBlocked = blockedPatterns.some(pattern => pattern.test(input));
-
-            if (isBlocked) {
-                resultDiv.innerHTML = `
-                    <div style="color:#dc2626; font-weight:600;">
-                        <i class="fa-solid fa-shield-alt"></i> WAF : Requête bloquée
-                    </div>
-                    <div style="color:#334155; margin-top:0.5rem;">
-                        Le pare-feu a détecté un payload malveillant.
-                    </div>
-                    <div style="color:#64748b; font-size:0.9rem; margin-top:1rem;">
-                        Essayez d’obfusquer ou d’utiliser un vecteur alternatif.
-                    </div>
-                `;
+        function runWAF() {
+            const v = document.getElementById('in').value;
+            const blocked = v.indexOf('<script') >= 0 || v.indexOf('javascript:') >= 0 || v.indexOf('alert(') >= 0;
+            if (blocked) {
+                document.getElementById('out').innerHTML = '<div style="color:var(--danger);">🛡️ WAF: Requête bloquée</div>';
                 return;
             }
-
-            // Détecte les payloads de bypass
-            const bypassPatterns = [
-                /<img[^>]*onerror/i,
-                /<svg[^>]*onload/i,
-                /<body[^>]*onload/i
-            ];
-            const isBypass = bypassPatterns.some(pattern => pattern.test(input));
-
-            if (isBypass) {
-                resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
-                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace; margin-bottom:1rem;">
-                            ${escapeHtml(input)}
-                        </div>
-                        <div style="color:#16a34a; font-weight:600;">
-                            <i class="fa-solid fa-check-circle"></i> WAF contourné avec succès !
-                        </div>
-                    </div>
-                `;
-                showFakeAlert();
-                if (!appState.completedModules.includes('waf')) {
-                    validateModule('waf');
-                }
+            const bypass = v.indexOf('<img') >= 0 && v.indexOf('onerror') >= 0;
+            if (bypass) {
+                document.getElementById('out').innerHTML = '<div style="color:var(--success);">✓ WAF contourné!</div>';
+                showAlert();
             } else {
-                resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
-                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace;">
-                            ${escapeHtml(input)}
-                        </div>
-                        <div style="margin-top:1rem; color:#64748b; font-size:0.9rem;">
-                            Aucune injection détectée. Le WAF n’a pas été déclenché, mais pas de XSS non plus.
-                        </div>
-                    </div>
-                `;
+                document.getElementById('out').innerHTML = 'Recherche: ' + esc(v);
             }
         }
 
-        // --- LAB FUNCTIONS EXISTANTS ---
-        function runXSS() {
-            const input = document.getElementById('xss-input').value;
-            const resultDiv = document.getElementById('xss-result');
-            if (input.includes('<script>') && input.includes('alert(') || 
-                input.includes('alert(') && input.includes(')')) {
-                resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
-                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace; margin-bottom:1rem;">
-                            ${escapeHtml(input)}
-                        </div>
-                        <div style="color:#dc2626; font-weight:600;">
-                            <i class="fa-solid fa-triangle-exclamation"></i> Script exécuté avec succès!
-                        </div>
-                    </div>
-                `;
-                showFakeAlert();
-            } else {
-                resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
-                        <div style="background:#f8fafc; padding:0.5rem; border-radius:4px; font-family:monospace;">
-                            ${escapeHtml(input)}
-                        </div>
-                        <div style="margin-top:1rem; color:#64748b; font-size:0.9rem;">
-                            Aucun script JavaScript détecté dans la recherche.
-                        </div>
-                    </div>
-                `;
-            }
+        function nav(v) {
+            state.view = v;
+            render();
+            updateNav();
+            updateXP();
         }
 
-        function loadIDORProfile() {
-            const profileId = document.getElementById('idor-input').value;
-            const profileDiv = document.getElementById('idor-profile');
-            const urlBar = document.getElementById('idor-url');
-            if (urlBar) urlBar.textContent = `https://vulnerable-site.com/profile?id=${profileId}`;
-            if (profileId === '1234') {
-                profileDiv.innerHTML = `
-                    <div style="border-bottom:1px solid #e2e8f0; padding-bottom:1rem; margin-bottom:1rem;">
-                        <h3 style="color:#334155;">Profil Administrateur</h3>
-                        ID: <span style="color:#334155; font-family:monospace;">1234</span>
-                    </div>
-                    ...
-                    <div style="margin-top:1.5rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
-                        <div style="color:#16a34a; font-weight:600;">
-                            <i class="fa-solid fa-check-circle"></i> IDOR Réussi !
-                        </div>
-                    </div>
-                `;
-            } else {
-                profileDiv.innerHTML = `
-                    <div style="border-bottom:1px solid #e2e8f0; padding-bottom:1rem; margin-bottom:1rem;">
-                        <h3 style="color:#334155;">Profil Utilisateur</h3>
-                        ID: <span style="color:#334155; font-family:monospace;">${profileId}</span>
-                    </div>
-                    ...
-                `;
-            }
+        function render() {
+            const views = {
+                'dashboard': renderDashboard,
+                'xss': renderXSS,
+                'idor': renderIDOR,
+                'sqli': renderSQLI,
+                'csrf': renderCSRF,
+                'xxe': renderXXE,
+                'rc': renderRC,
+                'lfi': renderLFI,
+                'waf': renderWAF
+            };
+            const fn = views[state.view] || renderDashboard;
+            document.getElementById('content').innerHTML = fn();
+            if (state.view === 'rc') updateRace();
         }
 
-        function runSQLI() {
-            const username = document.getElementById('sqli-user').value;
-            const password = document.getElementById('sqli-pass').value;
-            const resultDiv = document.getElementById('sqli-result');
-            if (password.includes("' OR '1'='1") || password.includes("' OR 1=1--")) {
-                resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="color:#16a34a; font-weight:600; margin-bottom:1rem;">
-                            <i class="fa-solid fa-check-circle"></i> Connexion réussie !
-                        </div>
-                        <table>...</table>
-                        <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
-                            <div style="color:#16a34a; font-weight:600;">
-                                <i class="fa-solid fa-database"></i> SQL Injection réussie !
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                resultDiv.innerHTML = `
-                    <div style="color:#dc2626; font-weight:600;">
-                        <i class="fa-solid fa-xmark-circle"></i> Échec de la connexion
-                    </div>
-                `;
-            }
-        }
-
-        function submitCSRF() {
-            const email = document.getElementById('csrf-email').value;
-            const resultDiv = document.getElementById('csrf-result');
-            resultDiv.innerHTML = `
-                <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:1.5rem; border-radius:8px;">
-                    <div style="color:#16a34a; font-weight:600; margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-check-circle"></i> Email changé avec succès !
-                    </div>
-                </div>
-            `;
-        }
-
-        function parseXXE() {
-            const xmlInput = document.getElementById('xxe-input').value;
-            const resultDiv = document.getElementById('xxe-result');
-            if (xmlInput.includes('<!ENTITY') && xmlInput.includes('SYSTEM') && xmlInput.includes('file://')) {
-                resultDiv.innerHTML = `
-                    <div>...</div>
-                    <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
-                        <i class="fa-solid fa-file-code"></i> Fichier système lu avec succès
-                    </div>
-                `;
-            } else {
-                resultDiv.innerHTML = `
-                    <div style="color:#dc2626; font-weight:600;">
-                        <i class="fa-solid fa-xmark-circle"></i> Erreur de parsing XML
-                    </div>
-                `;
-            }
-        }
-
-        function updateRaceUI() {
-            document.getElementById('stock-count').textContent = appState.raceStock;
-            document.getElementById('user-money').textContent = appState.raceUserMoney;
-            document.getElementById('user-inventory').textContent = appState.raceInventory;
-        }
-
-        function buyProduct() {
-            if (appState.raceStock > 0 && appState.raceUserMoney >= 100) {
-                appState.raceStock--;
-                appState.raceUserMoney -= 100;
-                appState.raceInventory++;
-                updateRaceUI();
-                document.getElementById('race-output').innerHTML = `<div style="color:#16a34a;">Achat réussi</div>`;
-            } else {
-                document.getElementById('race-output').innerHTML = `<div style="color:#dc2626;">Achat impossible</div>`;
-            }
-        }
-
-        function startRaceCondition() {
-            const initialStock = appState.raceStock;
-            const successfulBuys = Math.min(10, initialStock + 3);
-            appState.raceStock = 0;
-            appState.raceUserMoney -= successfulBuys * 100;
-            appState.raceInventory += successfulBuys;
-            updateRaceUI();
-            document.getElementById('race-output').innerHTML = `
-                <div style="background:#fee2e2; border:1px solid #fecaca; padding:1.5rem; border-radius:8px;">
-                    <i class="fa-solid fa-bolt"></i> RACE CONDITION RÉUSSIE !
-                    Achats validés: ${successfulBuys}
-                </div>
-            `;
-        }
-
-        function loadLFI() {
-            const input = document.getElementById('lfi-input').value;
-            const result = document.getElementById('lfi-result');
-            if (input === 'welcome.txt') {
-                result.innerHTML = `...`;
-            } else if (input.includes('../../../etc/passwd') || input.includes('/etc/passwd')) {
-                result.innerHTML = `
-                    <div>...</div>
-                    <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
-                        <i class="fa-solid fa-file-lines"></i> Fichier système lu avec succès
-                    </div>
-                `;
-            } else {
-                result.innerHTML = `<div style="color:#dc2626;">Fichier introuvable</div>`;
-            }
-        }
-
-        // --- NAVIGATION, XP, TOAST, etc. ---
-        function navigateTo(view) {
-            appState.currentView = view;
-            renderContent();
-            updateNavButtons();
-            updateXPBar();
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('mobile-open');
-            }
-            history.pushState({ view }, '', `#${view}`);
-        }
-
-        function renderContent() {
-            const contentArea = document.getElementById('content-area');
-            const viewFunction = views[appState.currentView];
-            if (viewFunction) {
-                contentArea.innerHTML = viewFunction();
-                if (appState.currentView === 'module-idor') loadIDORProfile();
-                else if (appState.currentView === 'module-rc') updateRaceUI();
-            } else {
-                contentArea.innerHTML = `
-                    <div style="text-align:center; padding:4rem 2rem;">
-                        <h2 style="color:white; margin-bottom:1rem;">Vue non trouvée</h2>
-                        <button onclick="navigateTo('dashboard')" class="vulnerable-btn">
-                            <i class="fa-solid fa-home"></i> Retour au tableau de bord
-                        </button>
-                    </div>
-                `;
-            }
-        }
-
-        function renderNavButtons() {
-            const navContainer = document.getElementById('nav-buttons');
-            let html = '';
-            html += `<button class="nav-btn ${appState.currentView === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">
-                <i class="fa-solid fa-gauge-high"></i> Tableau de bord
-            </button>`;
-            html += '<div style="color:var(--text-secondary); padding:1rem 1.5rem 0.5rem; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Labs</div>';
-            modulesData.forEach(module => {
-                const isCompleted = appState.completedModules.includes(module.id);
-                const isActive = appState.currentView === 'module-' + module.id;
-                html += `
-                    <button class="nav-btn ${isActive ? 'active' : ''}" onclick="navigateTo('module-${module.id}')">
-                        <i class="fa-solid fa-${module.icon}" style="color:${module.color}"></i>
-                        <span style="flex:1; text-align:left;">${module.title}</span>
-                        ${isCompleted ? '<span class="module-progress" style="color:var(--success);"><i class="fa-solid fa-check-circle"></i></span>' : '<span class="module-progress">' + module.xp + ' XP</span>'}
-                    </button>
-                `;
+        function renderNav() {
+            let html = '<button class="nav-btn" onclick="nav(\'dashboard\')"><i class="fa-solid fa-gauge-high"></i> Dashboard</button>';
+            modules.forEach(m => {
+                const check = state.completed.includes(m.id) ? '<span style="margin-left:auto; color:var(--success);">✓</span>' : '';
+                html += '<button class="nav-btn" onclick="nav(\'' + m.id + '\')"><i class="fa-solid fa-' + m.icon + '"></i> ' + m.title + check + '</button>';
             });
-            navContainer.innerHTML = html;
+            document.getElementById('nav').innerHTML = html;
         }
 
-        function updateNavButtons() {
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.querySelector(`.nav-btn[onclick*="navigateTo('${appState.currentView}')"]`);
-            if (activeBtn) activeBtn.classList.add('active');
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('mobile-open');
-        }
-
-        function updateXPBar() {
-            const xpPercentage = Math.min((appState.xp / 3000) * 100, 100);
-            document.getElementById('xp-bar').style.width = `${xpPercentage}%`;
-            let level, levelName;
-            if (appState.xp >= 3000) { level = 5; levelName = 'Expert'; }
-            else if (appState.xp >= 2000) { level = 4; levelName = 'Avancé'; }
-            else if (appState.xp >= 1000) { level = 3; levelName = 'Intermédiaire'; }
-            else if (appState.xp >= 500) { level = 2; levelName = 'Débutant'; }
-            else { level = 1; levelName = 'Novice'; }
-            appState.level = level;
-            document.getElementById('user-level').textContent = levelName;
-            document.getElementById('user-level').className = `badge badge-${level === 5 ? 'success' : level >= 3 ? 'warning' : 'danger'}`;
-            document.getElementById('current-xp').textContent = `${appState.xp} XP`;
-            document.getElementById('completed-count').textContent = appState.completedModules.length;
-            document.getElementById('next-level-xp').textContent = `${3000 - appState.xp} XP`;
-        }
-
-        function validateModule(moduleId) {
-            if (!appState.completedModules.includes(moduleId)) {
-                appState.completedModules.push(moduleId);
-                const module = modulesData.find(m => m.id === moduleId);
-                if (module) {
-                    appState.xp += module.xp;
-                    showToast(`Lab validé ! +${module.xp} XP obtenus.`);
+        function updateNav() {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            const btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(b => {
+                if (b.getAttribute('onclick').indexOf(state.view) >= 0) {
+                    b.classList.add('active');
                 }
-                updateXPBar();
-                saveProgress();
-                renderNavButtons();
-                renderContent();
+            });
+        }
+
+        function updateXP() {
+            document.getElementById('xp-bar').style.width = Math.min((state.xp / 3000) * 100, 100) + '%';
+            const lvl = state.xp >= 3000 ? 'Expert' : state.xp >= 2000 ? 'Avancé' : state.xp >= 1000 ? 'Intermédiaire' : state.xp >= 500 ? 'Débutant' : 'Novice';
+            document.getElementById('level').textContent = lvl;
+            document.getElementById('current-xp').textContent = state.xp + ' XP';
+        }
+
+        function validate(id) {
+            if (!state.completed.includes(id)) {
+                state.completed.push(id);
+                const m = modules.find(x => x.id === id);
+                state.xp += m.xp;
+                toast('Lab validé! +' + m.xp + ' XP');
+                updateXP();
+                save();
+                renderNav();
+                render();
             }
         }
 
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toast-message');
-            let icon = 'check-circle';
-            if (type === 'error') icon = 'exclamation-circle';
-            if (type === 'warning') icon = 'exclamation-triangle';
-            if (type === 'info') icon = 'info-circle';
-            document.querySelector('.toast-header strong').innerHTML = `
-                <i class="fa-solid fa-${icon}" style="color:${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : type === 'warning' ? 'var(--warning)' : 'var(--info)'}"></i>
-                ${type === 'success' ? 'Succès' : type === 'error' ? 'Erreur' : type === 'warning' ? 'Avertissement' : 'Information'}
-            `;
-            toastMessage.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => { hideToast(); }, 4000);
+        function toast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            t.classList.add('show');
+            setTimeout(function() { t.classList.remove('show'); }, 3000);
         }
 
-        function hideToast() { document.getElementById('toast').classList.remove('show'); }
-        function showFakeAlert() { document.getElementById('fake-alert-overlay').style.display = 'flex'; }
-        function closeFakeAlert() { document.getElementById('fake-alert-overlay').style.display = 'none'; }
+        function showAlert() {
+            document.getElementById('alert').style.display = 'flex';
+        }
 
-        // --- PERSISTANCE ---
-        function saveProgress() {
-            localStorage.setItem('bountyAcademyProgress', JSON.stringify({
-                xp: appState.xp,
-                completedModules: appState.completedModules,
-                raceStock: appState.raceStock,
-                raceUserMoney: appState.raceUserMoney,
-                raceInventory: appState.raceInventory
+        function closeAlert() {
+            document.getElementById('alert').style.display = 'none';
+        }
+
+        function save() {
+            localStorage.setItem('bounty', JSON.stringify({
+                xp: state.xp,
+                completed: state.completed,
+                raceStock: state.raceStock,
+                raceMoney: state.raceMoney,
+                raceInventory: state.raceInventory
             }));
         }
 
-        function loadSavedProgress() {
-            const saved = localStorage.getItem('bountyAcademyProgress');
-            if (saved) {
-                const progress = JSON.parse(saved);
-                appState.xp = progress.xp || 0;
-                appState.completedModules = progress.completedModules || [];
-                appState.raceStock = progress.raceStock || 5;
-                appState.raceUserMoney = progress.raceUserMoney || 1000;
-                appState.raceInventory = progress.raceInventory || 0;
+        function load() {
+            const s = localStorage.getItem('bounty');
+            if (s) {
+                const d = JSON.parse(s);
+                state.xp = d.xp || 0;
+                state.completed = d.completed || [];
+                state.raceStock = d.raceStock || 5;
+                state.raceMoney = d.raceMoney || 1000;
+                state.raceInventory = d.raceInventory || 0;
             }
         }
 
-        // --- INITIALISATION UNIQUE ---
-        (function initApp() {
-            console.log("🚀 Lancement de BountyAcademy...");
-            try {
-                renderNavButtons();
-                updateXPBar();
-                loadSavedProgress();
-                const hash = window.location.hash.substring(1);
-                if (hash && views[hash]) {
-                    navigateTo(hash);
-                } else {
-                    navigateTo('dashboard');
-                }
-                window.addEventListener('popstate', function(event) {
-                    if (event.state && event.state.view) {
-                        navigateTo(event.state.view);
-                    }
-                });
-                console.log("✅ Application initialisée avec succès");
-            } catch (error) {
-                console.error("❌ Erreur d'initialisation:", error);
-                document.getElementById('content-area').innerHTML = `
-                    <div style="text-align:center; padding:2rem;">
-                        <h2>Erreur de chargement</h2>
-                        <p>Veuillez recharger la page</p>
-                        <button onclick="window.location.reload()" class="vulnerable-btn">Recharger</button>
-                    </div>
-                `;
-            }
-        })();
+        load();
+        renderNav();
+        updateXP();
+        nav('dashboard');
     </script>
-        
 </body>
 </html>
-
-
-
-
-
-
-
-    
