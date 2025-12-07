@@ -2203,24 +2203,40 @@ function handleInitialRoute() {
 }
 
 // Modifier l'initialisation
+<script>
+// ... tout ton code JS jusqu'à loadSavedProgress() ...
+
+// --- INITIALISATION UNIQUE ---
 (function initApp() {
     console.log("🚀 Lancement de BountyAcademy...");
     try {
         renderNavButtons();
         updateXPBar();
-        
-        // Ajouter la persistance avec localStorage
         loadSavedProgress();
-        
-        // Gérer le routage initial
-        handleInitialRoute();
-        
-        // Ajouter un gestionnaire pour le bouton back/forward du navigateur
+        const hash = window.location.hash.substring(1);
+        if (hash && views[hash]) {
+            navigateTo(hash);
+        } else {
+            navigateTo('dashboard');
+        }
         window.addEventListener('popstate', function(event) {
             if (event.state && event.state.view) {
                 navigateTo(event.state.view);
             }
         });
+        console.log("✅ Application initialisée avec succès");
+    } catch (error) {
+        console.error("❌ Erreur d'initialisation:", error);
+        document.getElementById('content-area').innerHTML = `
+            <div style="text-align:center; padding:2rem;">
+                <h2>Erreur de chargement</h2>
+                <p>Veuillez recharger la page</p>
+                <button onclick="window.location.reload()" class="vulnerable-btn">Recharger</button>
+            </div>
+        `;
+    }
+})();
+</script>
         
         console.log("✅ Application initialisée avec succès");
     } catch (error) {
