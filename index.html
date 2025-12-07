@@ -2190,26 +2190,8 @@ sync:x:4:65534:sync:/bin:/bin/sync
             }
         }
         // --- INITIALISATION DE L'APPLICATION ---
-        // Démarrer immédiatement
-        (function initApp() {
-            console.log("🚀 Lancement de BountyAcademy...");
-            try {
-                renderNavButtons();
-                updateXPBar();
-                navigateTo('dashboard');
-                console.log("✅ Application initialisée avec succès");
-            } catch (error) {
-                console.error("❌ Erreur d'initialisation:", error);
-                // Fallback manuel
-                document.getElementById('content-area').innerHTML = `
-                    <div style="text-align:center; padding:2rem;">
-                        <h2>Erreur de chargement</h2>
-                        <p>Veuillez recharger la page</p>
-                        <button onclick="window.location.reload()" class="vulnerable-btn">Recharger</button>
-                    </div>
-                `;
-            }
-        })();
+        
+      
                     // Ajouter cette fonction pour gérer le chargement initial
 function handleInitialRoute() {
     const hash = window.location.hash.substring(1);
