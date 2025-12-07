@@ -1500,8 +1500,7 @@
         // --- LAB FUNCTIONS ---
         function runXSS() {
             const input = document.getElementById('xss-input').value;
-            const resultDiv = document.getElementById('xss-result');
-            // Échappement de </script> avec <\/script>
+            const resultDiv = document.getElementById('xss-result
             if (input.includes('<script>alert(1)<\/script>') || 
                 (input.includes('<script>') && input.includes('alert(1)')) ||
                 (input.includes('alert(') && input.includes(')'))) {
