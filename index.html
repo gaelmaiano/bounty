@@ -23,4 +23,131 @@
         /* --- RESET & BASE STYLES --- */
         * { 
             margin: 0; 
+                <script>
+        // --- APPLICATION STATE ---
+        const appState = {
+            xp: 0,
+            level: 1,
+            completedModules: [],
+            currentView: 'dashboard',
+            raceStock: 5,
+            raceUserMoney: 1000,
+            raceInventory: 0,
+            userProfile: {
+                id: 1337,
+                name: "Hacker Apprenti",
+                email: "apprenti@bountyacademy.com",
+                role: "Étudiant"
+            }
+        };
+
+        // --- MODULES DATA ---
+        const modulesData = [
+            { 
+                id: 'xss', 
+                title: 'Lab 1: XSS Reflected', 
+                icon: 'code', 
+                color: '#10b981', 
+                xp: 200, 
+                level: 'Facile',
+                description: 'Injectez du JavaScript via un champ de recherche',
+                hint: 'Essayez: <code>&lt;script&gt;alert(1)&lt;/script&gt;</code>'
+            },
+            { 
+                id: 'idor', 
+                title: 'Lab 2: IDOR', 
+                icon: 'id-card', 
+                color: '#f59e0b', 
+                xp: 300, 
+                level: 'Moyen',
+                description: 'Accédez à des ressources sans autorisation',
+                hint: 'Changez l\'ID dans l\'URL pour accéder à d\'autres profils'
+            },
+            { 
+                id: 'sqli', 
+                title: 'Lab 3: SQL Injection', 
+                icon: 'database', 
+                color: '#ef4444', 
+                xp: 400, 
+                level: 'Intermédiaire',
+                description: 'Injectez des commandes SQL via un formulaire de login',
+                hint: 'Utilisez: <code>\' OR \'1\'=\'1</code> dans le mot de passe'
+            },
+            { 
+                id: 'csrf', 
+                title: 'Lab 4: CSRF', 
+                icon: 'hand-pointer', 
+                color: '#3b82f6', 
+                xp: 400, 
+                level: 'Avancé',
+                description: 'Forgez une requête pour modifier des données',
+                hint: 'Créez un formulaire HTML qui s\'envoie automatiquement'
+            },
+            { 
+                id: 'xxe', 
+                title: 'Lab 5: XXE', 
+                icon: 'file-code', 
+                color: '#fbbf24', 
+                xp: 500, 
+                level: 'Expert',
+                description: 'Exploitez le traitement XML pour lire des fichiers système',
+                hint: 'Utilisez une entité externe: <code>&lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt;</code>'
+            },
+            { 
+                id: 'rc', 
+                title: 'Lab 6: Race Condition', 
+                icon: 'gauge-high', 
+                color: '#ef4444', 
+                xp: 600, 
+                level: 'Expert+',
+                description: 'Exploitez des conditions de course pour acheter plus que le stock',
+                hint: 'Envoyez plusieurs requêtes simultanées avant la mise à jour du stock'
+            },
+            { 
+                id: 'lfi', 
+                title: 'Lab 7: LFI', 
+                icon: 'folder-open', 
+                color: '#34d399', 
+                xp: 600, 
+                level: 'Intermédiaire',
+                description: 'Lisez des fichiers locaux via des inclusions de fichiers',
+                hint: 'Utilisez: <code>../../../etc/passwd</code>'
+            }
+        ];
+
+        // --- UTILITY FUNCTIONS ---
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function getBackButton() {
+            return `
+                <button onclick="navigateTo('dashboard')" class="vulnerable-btn" style="margin-bottom:1.5rem;">
+                    <i class="fa-solid fa-arrow-left"></i> Retour au tableau de bord
+                </button>
+            `;
+        }
+
+        function getValidateButton(moduleId) {
+            const completed = appState.completedModules.includes(moduleId);
+            const module = modulesData.find(m => m.id === moduleId);
+            const buttonText = completed ? 
+                '<i class="fa-solid fa-check-circle"></i> Déjà validé' : 
+                '<i class="fa-solid fa-trophy"></i> Valider le lab';
+            return `
+                <div style="margin-top: 2rem;">
+                    <button class="action-btn" onclick="validateModule('${moduleId}')" ${completed ? 'disabled' : ''}>
+                        ${buttonText}
+                    </button>
+                    ${completed ? `
+                        <div style="text-align: center; margin-top: 0.5rem; color: var(--success);">
+                            <i class="fa-solid fa-check"></i> ${module.xp} XP obtenus
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
            
