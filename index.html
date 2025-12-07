@@ -608,3 +608,77 @@
         }
     </style>
 </head>
+   <body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-bug" style="color:var(--success)"></i>
+                <h1>BountyAcademy</h1>
+            </div>
+            <!-- XP Panel -->
+            <div class="xp-panel">
+                <div class="xp-info">
+                    <span>Niveau</span>
+                    <span id="user-level" class="badge badge-success">Novice</span>
+                </div>
+                <div class="xp-bar-container">
+                    <div id="xp-bar" class="xp-bar"></div>
+                </div>
+                <div class="xp-info">
+                    <span id="current-xp">0 XP</span>
+                    <span id="next-level-xp">3000 XP</span>
+                </div>
+            </div>
+            <!-- Navigation -->
+            <div class="nav-section" id="nav-buttons">
+                <!-- Navigation buttons will be inserted here by JavaScript -->
+            </div>
+            <!-- Sidebar Footer -->
+            <div style="padding: 1rem; border-top: 1px solid var(--border-dark);">
+                <div class="xp-info" style="margin-bottom: 0.5rem;">
+                    <span>Progression totale</span>
+                </div>
+                <div style="font-size: 0.9rem; color: var(--text-secondary); text-align: center;">
+                    <span id="completed-count">0</span>/<span>7</span> labs complétés
+                </div>
+            </div>
+        </nav>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="mobile-header">
+                <span style="color:white; font-weight:bold;">BountyAcademy</span>
+                <button onclick="toggleSidebar()" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            <div id="content-area" class="content-area">
+                <!-- Content will be inserted here by JavaScript -->
+            </div>
+        </main>
+    </div>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="toast-header">
+            <strong><i class="fa-solid fa-check-circle" style="color:var(--success)"></i> Succès</strong>
+            <button class="toast-close" onclick="hideToast()">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+        <span id="toast-message"></span>
+    </div>
+    <!-- Fake Alert for XSS Lab -->
+    <div id="fake-alert-overlay" class="fake-alert-overlay">
+        <div class="fake-alert-box">
+            <h3 style="color:var(--danger); margin-bottom:1rem;">
+                <i class="fa-solid fa-triangle-exclamation"></i> Alert
+            </h3>
+            <div class="code-block" style="margin-bottom:1rem;">
+                <pre>alert(1);</pre>
+            </div>
+            <p style="color:#64748b; margin-bottom:1rem; font-size:0.9rem;">
+                XSS Réussi! Une boîte de dialogue a été exécutée.
+            </p>
+            <button class="vulnerable-btn" onclick="closeFakeAlert()">OK</button>
+        </div>
+    </div> 
