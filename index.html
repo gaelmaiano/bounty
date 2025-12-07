@@ -1021,7 +1021,7 @@
             }
         }
 
-        // --- PERSISTANCE ---
+               // --- PERSISTANCE ---
         function saveProgress() {
             localStorage.setItem('bountyAcademyProgress', JSON.stringify({
                 xp: appState.xp,
@@ -1041,39 +1041,6 @@
                 appState.raceStock = progress.raceStock || 5;
                 appState.raceUserMoney = progress.raceUserMoney || 1000;
                 appState.raceInventory = progress.raceInventory || 0;
-            }
-        }
-
-             // --- PERSISTANCE ---
-        function saveProgress() {
-            localStorage.setItem('bountyAcademyProgress', JSON.stringify({
-                xp: appState.xp,
-                completedModules: appState.completedModules,
-                raceStock: appState.raceStock,
-                raceUserMoney: appState.raceUserMoney,
-                raceInventory: appState.raceInventory
-            }));
-        }
-
-        function loadSavedProgress() {
-            const saved = localStorage.getItem('bountyAcademyProgress');
-            if (saved) {
-                const progress = JSON.parse(saved);
-                appState.xp = progress.xp || 0;
-                appState.completedModules = progress.completedModules || [];
-                appState.raceStock = progress.raceStock || 5;
-                appState.raceUserMoney = progress.raceUserMoney || 1000;
-                appState.raceInventory = progress.raceInventory || 0;
-            }
-        }
-
-        // --- ROUTING ---
-        function handleInitialRoute() {
-            const hash = window.location.hash.substring(1);
-            if (hash && views[hash]) {
-                navigateTo(hash);
-            } else {
-                navigateTo('dashboard');
             }
         }
 
@@ -1084,7 +1051,12 @@
                 renderNavButtons();
                 updateXPBar();
                 loadSavedProgress();
-                handleInitialRoute();
+                const hash = window.location.hash.substring(1);
+                if (hash && views[hash]) {
+                    navigateTo(hash);
+                } else {
+                    navigateTo('dashboard');
+                }
                 window.addEventListener('popstate', function(event) {
                     if (event.state && event.state.view) {
                         navigateTo(event.state.view);
@@ -1105,15 +1077,6 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
 
 
 
