@@ -150,4 +150,279 @@
                 </div>
             `;
         }
+
+
+        // --- VIEW RENDERING ---
+        const views = {
+            dashboard: () => {
+                const progress = Math.round((appState.completedModules.length / modulesData.length) * 100);
+                return `
+                    <h2 class="dashboard-title">Tableau de bord</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div style="color:var(--text-secondary); margin-bottom:0.5rem;">
+                                <i class="fa-solid fa-medal"></i> XP Total
+                            </div>
+                            <div style="font-size:1.8rem; font-weight:bold; color:white;">${appState.xp}</div>
+                            <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.5rem;">
+                                Prochain niveau: ${3000 - appState.xp} XP
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="color:var(--text-secondary); margin-bottom:0.5rem;">
+                                <i class="fa-solid fa-flag-checkered"></i> Labs Terminés
+                            </div>
+                            <div style="font-size:1.8rem; font-weight:bold; color:white;">${appState.completedModules.length}/7</div>
+                            <div style="margin-top:0.5rem;">
+                                <div style="background:#334155; height:4px; border-radius:2px; overflow:hidden;">
+                                    <div style="background:var(--success); height:100%; width:${progress}%; transition:width 0.5s;"></div>
+                                </div>
+                                <div style="font-size:0.8rem; color:var(--text-secondary); text-align:right; margin-top:0.25rem;">
+                                    ${progress}%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 style="color:white; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem;">
+                        <i class="fa-solid fa-list-check"></i> Modules disponibles
+                    </h3>
+                    <div style="margin-bottom:1rem; color:var(--text-secondary);">
+                        Cliquez sur un module pour commencer le lab
+                    </div>
+                    ${modulesData.map(module => {
+                        const isCompleted = appState.completedModules.includes(module.id);
+                        const borderColor = isCompleted ? '#10b981' : '#475569';
+                        return `
+                            <div class="module-card" onclick="navigateTo('module-${module.id}')" style="border-color:${borderColor}">
+                                <div style="display:flex; align-items:center; gap:1rem;">
+                                    <div class="module-icon" style="color:${module.color}">
+                                        <i class="fa-solid fa-${module.icon}"></i>
+                                    </div>
+                                    <div>
+                                        <h4 style="color:white; margin:0;">${module.title}</h4>
+                                        <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.25rem;">
+                                            <span style="font-size:0.8rem; color:#94a3b8;">${module.level}</span>
+                                            <span style="font-size:0.8rem; color:${module.color}">• ${module.xp} XP</span>
+                                            ${isCompleted ? 
+                                                '<span style="font-size:0.7rem; color:var(--success);"><i class="fa-solid fa-check"></i> Complété</span>' : 
+                                                ''
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-chevron-right" style="color:#475569"></i>
+                            </div>
+                        `;
+                    }).join('')}
+                `;
+            },
+            // XSS Lab
+            'module-xss': () => {
+                const module = modulesData.find(m => m.id === 'xss');
+                return `
+                    ${getBackButton()}
+                    <div class="lab-header">
+                        <div>
+                            <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
+                            <div style="color:var(--text-secondary);">${module.description}</div>
+                        </div>
+                        <span class="lab-difficulty">${module.level}</span>
+                    </div>
+                    <div class="lab-container">
+                        <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(59, 130, 246, 0.1); border-radius:0.5rem; border:1px solid rgba(59, 130, 246, 0.3);">
+                            <div style="display:flex; align-items:center; gap:0.5rem; color:var(--info); margin-bottom:0.5rem;">
+                                <i class="fa-solid fa-bullseye"></i>
+                                <strong>Mission</strong>
+                            </div>
+                            <div style="color:var(--text-primary);">
+                                Faire apparaître une <code>alert(1)</code> via le champ de recherche.
+                            </div>
+                        </div>
+                        <div class="lab-browser">
+                            <div class="browser-bar">
+                                <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
+                                <div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>
+                                <div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>
+                                <div class="url-bar">https://vulnerable-site.com/search</div>
+                            </div>
+                            <div class="browser-content">
+                                <h3 style="color:#334155; margin-bottom:1rem;">Recherche sur le site</h3>
+                                <div class="input-group">
+                                    <input type="text" id="xss-input" class="vulnerable-input" placeholder="Entrez votre recherche..." value="">
+                                    <button onclick="runXSS()" class="vulnerable-btn">Rechercher</button>
+                                </div>
+                                <div id="xss-result" style="margin-top:1.5rem; padding:1rem; border:1px solid #e2e8f0; border-radius:4px; min-height:80px;">
+                                    <div style="color:#64748b; text-align:center; padding:1rem;">
+                                        Résultats de recherche apparaîtront ici
+                                    </div>
+                                </div>
+                                <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
+                                    <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
+                                        <i class="fa-solid fa-lightbulb"></i>
+                                        <strong>Indice</strong>
+                                    </div>
+                                    <div style="color:#334155; font-size:0.9rem;">
+                                        ${module.hint}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    ${getValidateButton('xss')}
+                `;
+            },
+            // IDOR Lab
+            'module-idor': () => {
+                const module = modulesData.find(m => m.id === 'idor');
+                return `
+                    ${getBackButton()}
+                    <div class="lab-header">
+                        <div>
+                            <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
+                            <div style="color:var(--text-secondary);">${module.description}</div>
+                        </div>
+                        <span class="lab-difficulty">${module.level}</span>
+                    </div>
+                    <div class="lab-container">
+                        <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(245, 158, 11, 0.1); border-radius:0.5rem; border:1px solid rgba(245, 158, 11, 0.3);">
+                            <div style="display:flex; align-items:center; gap:0.5rem; color:var(--warning); margin-bottom:0.5rem;">
+                                <i class="fa-solid fa-bullseye"></i>
+                                <strong>Mission</strong>
+                            </div>
+                            <div style="color:var(--text-primary);">
+                                Accédez au profil administrateur (ID 1234). Votre ID est ${appState.userProfile.id}.
+                            </div>
+                        </div>
+                        <div class="lab-browser">
+                            <div class="browser-bar">
+                                <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
+                                <div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>
+                                <div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>
+                                <div class="url-bar" id="idor-url">https://vulnerable-site.com/profile?id=${appState.userProfile.id}</div>
+                            </div>
+                            <div class="browser-content">
+                                <h3 style="color:#334155; margin-bottom:1rem;">Gestion des profils</h3>
+                                <div style="margin:1rem 0;">
+                                    <label style="display:block; color:#334155; margin-bottom:0.5rem; font-weight:600;">
+                                        ID du profil à afficher:
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="number" id="idor-input" class="vulnerable-input" value="${appState.userProfile.id}" min="1" max="9999">
+                                        <button onclick="loadIDORProfile()" class="vulnerable-btn">
+                                            <i class="fa-solid fa-user"></i> Charger
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="idor-profile" class="profile-card">
+                                    <!-- Profile will be loaded here -->
+                                </div>
+                                <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
+                                    <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
+                                        <i class="fa-solid fa-lightbulb"></i>
+                                        <strong>Indice</strong>
+                                    </div>
+                                    <div style="color:#334155; font-size:0.9rem;">
+                                        ${module.hint}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    ${getValidateButton('idor')}
+                `;
+            },
+            // SQL Injection Lab
+            'module-sqli': () => {
+                const module = modulesData.find(m => m.id === 'sqli');
+                return `
+                    ${getBackButton()}
+                    <div class="lab-header">
+                        <div>
+                            <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
+                            <div style="color:var(--text-secondary);">${module.description}</div>
+                        </div>
+                        <span class="lab-difficulty">${module.level}</span>
+                    </div>
+                    <div class="lab-container">
+                        <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(239, 68, 68, 0.1); border-radius:0.5rem; border:1px solid rgba(239, 68, 68, 0.3);">
+                            <div style="display:flex; align-items:center; gap:0.5rem; color:var(--danger); margin-bottom:0.5rem;">
+                                <i class="fa-solid fa-bullseye"></i>
+                                <strong>Mission</strong>
+                            </div>
+                            <div style="color:var(--text-primary);">
+                                Connectez-vous en tant qu'administrateur sans connaître le mot de passe.
+                            </div>
+                        </div>
+                        <div class="lab-browser">
+                            <div class="browser-bar">
+                                <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
+                                <div style="width:12px; height:12px; border-radius:50%; background:#f59e0b;"></div>
+                                <div style="width:12px; height:12px; border-radius:50%; background:#10b981;"></div>
+                                <div class="url-bar">https://vulnerable-site.com/login</div>
+                            </div>
+                            <div class="browser-content">
+                                <h3 style="color:#334155; margin-bottom:1rem;">Connexion administrateur</h3>
+                                <div style="margin:1rem 0;">
+                                    <div style="margin-bottom:1rem;">
+                                        <label style="display:block; color:#334155; margin-bottom:0.25rem;">Nom d'utilisateur:</label>
+                                        <input type="text" id="sqli-user" class="vulnerable-input" placeholder="admin" value="admin">
+                                    </div>
+                                    <div style="margin-bottom:1rem;">
+                                        <label style="display:block; color:#334155; margin-bottom:0.25rem;">Mot de passe:</label>
+                                        <input type="password" id="sqli-pass" class="vulnerable-input" placeholder="Entrez le mot de passe" value="">
+                                    </div>
+                                    <button onclick="runSQLI()" class="vulnerable-btn" style="width:100%;">
+                                        <i class="fa-solid fa-sign-in-alt"></i> Se connecter
+                                    </button>
+                                </div>
+                                <div id="sqli-result" class="result-container">
+                                    <div style="color:#64748b; text-align:center; padding:1rem;">
+                                        Résultat de la connexion apparaîtra ici
+                                    </div>
+                                </div>
+                                <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
+                                    <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
+                                        <i class="fa-solid fa-lightbulb"></i>
+                                        <strong>Indice</strong>
+                                    </div>
+                                    <div style="color:#334155; font-size:0.9rem;">
+                                        ${module.hint}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    ${getValidateButton('sqli')}
+                `;
+            },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      *
            
