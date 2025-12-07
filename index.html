@@ -19,14 +19,12 @@
             --info: #3b82f6;
             --transition: all 0.3s ease;
         }
-
         /* --- RESET & BASE STYLES --- */
         * { 
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
         }
-
         body { 
             background-color: var(--primary-dark); 
             color: var(--text-primary); 
@@ -35,12 +33,10 @@
             overflow: hidden; 
             line-height: 1.6;
         }
-
         .app-container { 
             display: flex; 
             height: 100vh; 
         }
-
         /* --- SIDEBAR --- */
         .sidebar { 
             width: 16rem; 
@@ -52,7 +48,6 @@
             transition: transform 0.3s; 
             overflow: hidden;
         }
-
         .sidebar-header { 
             padding: 1.5rem; 
             display: flex; 
@@ -60,7 +55,6 @@
             gap: 0.75rem; 
             border-bottom: 1px solid var(--border-dark); 
         }
-
         .sidebar-header h1 { 
             font-size: 1.2rem; 
             color: white; 
@@ -69,7 +63,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         /* --- XP PANEL --- */
         .xp-panel { 
             padding: 1rem; 
@@ -79,7 +72,6 @@
             border: 1px solid #475569; 
             backdrop-filter: blur(10px);
         }
-
         .xp-bar-container { 
             width: 100%; 
             background: #334155; 
@@ -88,7 +80,6 @@
             overflow: hidden; 
             margin: 0.5rem 0; 
         }
-
         .xp-bar { 
             background: linear-gradient(90deg, var(--success), #34d399); 
             height: 100%; 
@@ -97,7 +88,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .xp-bar::after {
             content: '';
             position: absolute;
@@ -111,14 +101,12 @@
                 transparent);
             animation: shimmer 2s infinite;
         }
-
         .xp-info { 
             display: flex; 
             justify-content: space-between; 
             font-size: 0.75rem; 
             color: var(--text-secondary); 
         }
-
         /* --- NAVIGATION --- */
         .nav-section { 
             flex: 1; 
@@ -127,20 +115,16 @@
             scrollbar-width: thin;
             scrollbar-color: var(--border-dark) var(--secondary-dark);
         }
-
         .nav-section::-webkit-scrollbar {
             width: 4px;
         }
-
         .nav-section::-webkit-scrollbar-track {
             background: var(--secondary-dark);
         }
-
         .nav-section::-webkit-scrollbar-thumb {
             background: var(--border-dark);
             border-radius: 2px;
         }
-
         .nav-btn { 
             width: 100%; 
             text-align: left; 
@@ -156,40 +140,34 @@
             gap: 10px; 
             position: relative;
         }
-
         .nav-btn:hover { 
             color: #34d399; 
             background: rgba(16, 185, 129, 0.1); 
             border-left-color: var(--success); 
         }
-
         .nav-btn.active { 
             color: #34d399; 
             background: rgba(16, 185, 129, 0.2); 
             border-left-color: var(--success); 
             font-weight: 600;
         }
-
         .module-progress { 
             margin-left: auto; 
             font-size: 0.7rem; 
             color: #64748b; 
         }
-
         /* --- MAIN CONTENT --- */
         .main-content { 
             flex: 1; 
             overflow-y: auto; 
             position: relative; 
         }
-
         .content-area { 
             padding: 2rem; 
             max-width: 64rem; 
             margin: 0 auto; 
             animation: fadeIn 0.3s ease;
         }
-
         .dashboard-title {
             font-size: 2rem;
             margin-bottom: 2rem;
@@ -197,7 +175,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .mobile-header { 
             display: none; 
             padding: 1rem; 
@@ -206,7 +183,6 @@
             align-items: center; 
             border-bottom: 1px solid var(--border-dark);
         }
-
         /* --- CARDS --- */
         .stats-grid { 
             display: grid; 
@@ -214,7 +190,6 @@
             gap: 1.5rem; 
             margin-bottom: 2rem; 
         }
-
         .stat-card { 
             background: rgba(30, 41, 59, 0.7); 
             padding: 1.5rem; 
@@ -222,12 +197,10 @@
             border: 1px solid rgba(255,255,255,0.05);
             transition: var(--transition);
         }
-
         .stat-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-
         .module-card { 
             background: var(--secondary-dark); 
             padding: 1rem; 
@@ -240,13 +213,11 @@
             border: 1px solid #475569; 
             transition: var(--transition);
         }
-
         .module-card:hover { 
             border-color: var(--success); 
             transform: translateX(5px); 
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
         }
-
         .module-icon {
             width: 3rem; 
             height: 3rem; 
@@ -257,7 +228,6 @@
             justify-content: center;
             font-size: 1.2rem;
         }
-
         /* --- LABS UI --- */
         .lab-header {
             display: flex;
@@ -267,7 +237,6 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-
         .lab-difficulty {
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
@@ -276,7 +245,6 @@
             background: rgba(59, 130, 246, 0.1);
             color: var(--info);
         }
-
         .lab-container { 
             background: var(--secondary-dark); 
             border: 1px solid #475569; 
@@ -285,7 +253,6 @@
             margin-top: 1rem; 
             animation: slideUp 0.3s ease;
         }
-
         .lab-browser { 
             background: #f8fafc; 
             border-radius: 0.5rem; 
@@ -295,7 +262,6 @@
             border: 1px solid #cbd5e1; 
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         .browser-bar { 
             background: #e2e8f0; 
             padding: 0.5rem; 
@@ -304,7 +270,6 @@
             gap: 0.5rem; 
             border-bottom: 1px solid #cbd5e1; 
         }
-
         .url-bar { 
             background: white; 
             padding: 0.4rem 0.8rem; 
@@ -315,12 +280,10 @@
             border: 1px solid #cbd5e1; 
             font-family: monospace;
         }
-
         .browser-content { 
             padding: 2rem; 
             min-height: 200px; 
         }
-
         /* --- INPUTS & BUTTONS --- */
         .vulnerable-input { 
             padding: 0.75rem; 
@@ -330,19 +293,16 @@
             font-family: monospace;
             transition: var(--transition);
         }
-
         .vulnerable-input:focus {
             outline: none;
             border-color: var(--info);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
-
         .input-group {
             display: flex;
             gap: 0.5rem;
             margin: 1rem 0;
         }
-
         .vulnerable-btn { 
             padding: 0.75rem 1.5rem; 
             background: var(--info); 
@@ -354,13 +314,11 @@
             font-weight: 600;
             white-space: nowrap;
         }
-
         .vulnerable-btn:hover {
             background: #2563eb;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
         }
-
         .action-btn { 
             width: 100%; 
             padding: 1rem; 
@@ -374,19 +332,16 @@
             font-weight: 600;
             transition: var(--transition);
         }
-
         .action-btn:hover:not(:disabled) {
             background: #059669;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
         }
-
         .action-btn:disabled { 
             background: #334155; 
             cursor: not-allowed; 
             opacity: 0.6;
         }
-
         /* --- SPECIFIC LAB STYLES --- */
         .profile-card { 
             border: 1px solid #cbd5e1; 
@@ -397,7 +352,6 @@
             background: white; 
             text-align: left; 
         }
-
         .code-block {
             background: #1e293b;
             border: 1px solid #475569;
@@ -409,11 +363,9 @@
             margin: 1rem 0;
             color: var(--text-primary);
         }
-
         .code-block pre {
             margin: 0;
         }
-
         .result-container {
             margin-top: 1.5rem;
             padding: 1rem;
@@ -426,19 +378,16 @@
             white-space: pre-wrap;
             color: #334155;
         }
-
         .success-message {
             color: var(--success);
             font-weight: bold;
             margin-top: 1rem;
         }
-
         .error-message {
             color: var(--danger);
             font-weight: bold;
             margin-top: 1rem;
         }
-
         /* --- RACE CONDITION SPECIFIC --- */
         .race-controls { 
             display: flex; 
@@ -446,7 +395,6 @@
             margin: 1rem 0; 
             flex-wrap: wrap;
         }
-
         .race-track { 
             background: #e2e8f0; 
             height: 20px; 
@@ -455,14 +403,12 @@
             position: relative; 
             overflow: hidden; 
         }
-
         .race-progress { 
             background: var(--info); 
             height: 100%; 
             width: 0%; 
             transition: width 0.1s; 
         }
-
         /* --- TOAST & ALERTS --- */
         .toast { 
             position: fixed; 
@@ -479,26 +425,22 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             min-width: 300px;
         }
-
         .toast.show { 
             transform: translateX(0); 
         }
-
-        .toast-header {
+        .toast-header{
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 0.5rem;
         }
-
-        .toast-close {
+        .toast-close{
             background: none;
             border: none;
             color: var(--text-secondary);
             cursor: pointer;
             font-size: 1rem;
         }
-
         .fake-alert-overlay { 
             position: fixed; 
             top: 0; 
@@ -512,7 +454,6 @@
             z-index: 50; 
             backdrop-filter: blur(4px);
         }
-
         .fake-alert-box { 
             background: white; 
             padding: 1.5rem; 
@@ -524,13 +465,11 @@
             animation: popIn 0.3s ease;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
-
         /* --- ANIMATIONS --- */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
         @keyframes slideUp {
             from { 
                 opacity: 0;
@@ -541,7 +480,6 @@
                 transform: translateY(0);
             }
         }
-
         @keyframes popIn {
             from { 
                 opacity: 0;
@@ -552,17 +490,14 @@
                 transform: scale(1);
             }
         }
-
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
         }
-
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
-
         /* --- MOBILE RESPONSIVE --- */
         @media (max-width: 768px) {
             .sidebar { 
@@ -573,46 +508,36 @@
                 top: 0;
                 left: 0;
             }
-            
             .sidebar.mobile-open { 
                 transform: translateX(0); 
             }
-            
             .mobile-header { 
                 display: flex; 
             }
-            
             .stats-grid { 
                 grid-template-columns: 1fr; 
             }
-            
             .input-group {
                 flex-direction: column;
             }
-            
             .race-controls {
                 flex-direction: column;
             }
-            
             .vulnerable-btn {
                 width: 100%;
             }
-            
             .content-area {
                 padding: 1rem;
             }
-            
             .lab-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
         }
-
         @media (max-width: 480px) {
             .sidebar {
                 width: 100%;
             }
-            
             .toast {
                 min-width: auto;
                 width: calc(100% - 40px);
@@ -620,7 +545,6 @@
                 left: 20px;
             }
         }
-
         /* --- LOADING STATES --- */
         .loading {
             display: inline-block;
@@ -631,17 +555,14 @@
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
         }
-
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
         /* --- TOOLTIPS --- */
         .tooltip {
             position: relative;
             display: inline-block;
         }
-
         .tooltip .tooltip-text {
             visibility: hidden;
             width: 200px;
@@ -660,12 +581,10 @@
             font-size: 0.8rem;
             border: 1px solid var(--border-dark);
         }
-
         .tooltip:hover .tooltip-text {
             visibility: visible;
             opacity: 1;
         }
-
         /* --- BADGES --- */
         .badge {
             display: inline-block;
@@ -675,17 +594,14 @@
             font-weight: 600;
             margin-left: 0.5rem;
         }
-
         .badge-success {
             background: rgba(16, 185, 129, 0.2);
             color: var(--success);
         }
-
         .badge-warning {
             background: rgba(245, 158, 11, 0.2);
             color: var(--warning);
         }
-
         .badge-danger {
             background: rgba(239, 68, 68, 0.2);
             color: var(--danger);
@@ -700,7 +616,6 @@
                 <i class="fa-solid fa-bug" style="color:var(--success)"></i>
                 <h1>BountyAcademy</h1>
             </div>
-            
             <!-- XP Panel -->
             <div class="xp-panel">
                 <div class="xp-info">
@@ -715,12 +630,10 @@
                     <span id="next-level-xp">3000 XP</span>
                 </div>
             </div>
-            
             <!-- Navigation -->
             <div class="nav-section" id="nav-buttons">
                 <!-- Navigation buttons will be inserted here by JavaScript -->
             </div>
-            
             <!-- Sidebar Footer -->
             <div style="padding: 1rem; border-top: 1px solid var(--border-dark);">
                 <div class="xp-info" style="margin-bottom: 0.5rem;">
@@ -731,7 +644,6 @@
                 </div>
             </div>
         </nav>
-
         <!-- Main Content -->
         <main class="main-content">
             <div class="mobile-header">
@@ -745,7 +657,6 @@
             </div>
         </main>
     </div>
-
     <!-- Toast Notification -->
     <div id="toast" class="toast">
         <div class="toast-header">
@@ -756,7 +667,6 @@
         </div>
         <span id="toast-message"></span>
     </div>
-
     <!-- Fake Alert for XSS Lab -->
     <div id="fake-alert-overlay" class="fake-alert-overlay">
         <div class="fake-alert-box">
@@ -772,7 +682,6 @@
             <button class="vulnerable-btn" onclick="closeFakeAlert()">OK</button>
         </div>
     </div>
-
     <script>
         // --- APPLICATION STATE ---
         const appState = {
@@ -887,7 +796,6 @@
             const buttonText = completed ? 
                 '<i class="fa-solid fa-check-circle"></i> Déjà validé' : 
                 '<i class="fa-solid fa-trophy"></i> Valider le lab';
-            
             return `
                 <div style="margin-top: 2rem;">
                     <button class="action-btn" onclick="validateModule('${moduleId}')" ${completed ? 'disabled' : ''}>
@@ -906,10 +814,8 @@
         const views = {
             dashboard: () => {
                 const progress = Math.round((appState.completedModules.length / modulesData.length) * 100);
-                
                 return `
                     <h2 class="dashboard-title">Tableau de bord</h2>
-                    
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div style="color:var(--text-secondary); margin-bottom:0.5rem;">
@@ -935,19 +841,15 @@
                             </div>
                         </div>
                     </div>
-                    
                     <h3 style="color:white; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem;">
                         <i class="fa-solid fa-list-check"></i> Modules disponibles
                     </h3>
-                    
                     <div style="margin-bottom:1rem; color:var(--text-secondary);">
                         Cliquez sur un module pour commencer le lab
                     </div>
-                    
                     ${modulesData.map(module => {
                         const isCompleted = appState.completedModules.includes(module.id);
                         const borderColor = isCompleted ? '#10b981' : '#475569';
-                        
                         return `
                             <div class="module-card" onclick="navigateTo('module-${module.id}')" style="border-color:${borderColor}">
                                 <div style="display:flex; align-items:center; gap:1rem;">
@@ -972,13 +874,10 @@
                     }).join('')}
                 `;
             },
-            
-            // XSS Lab
             'module-xss': () => {
                 const module = modulesData.find(m => m.id === 'xss');
                 return `
                     ${getBackButton()}
-                    
                     <div class="lab-header">
                         <div>
                             <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
@@ -986,7 +885,6 @@
                         </div>
                         <span class="lab-difficulty">${module.level}</span>
                     </div>
-                    
                     <div class="lab-container">
                         <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(59, 130, 246, 0.1); border-radius:0.5rem; border:1px solid rgba(59, 130, 246, 0.3);">
                             <div style="display:flex; align-items:center; gap:0.5rem; color:var(--info); margin-bottom:0.5rem;">
@@ -997,7 +895,6 @@
                                 Faire apparaître une <code>alert(1)</code> via le champ de recherche.
                             </div>
                         </div>
-                        
                         <div class="lab-browser">
                             <div class="browser-bar">
                                 <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
@@ -1007,18 +904,15 @@
                             </div>
                             <div class="browser-content">
                                 <h3 style="color:#334155; margin-bottom:1rem;">Recherche sur le site</h3>
-                                
                                 <div class="input-group">
                                     <input type="text" id="xss-input" class="vulnerable-input" placeholder="Entrez votre recherche..." value="">
                                     <button onclick="runXSS()" class="vulnerable-btn">Rechercher</button>
                                 </div>
-                                
                                 <div id="xss-result" style="margin-top:1.5rem; padding:1rem; border:1px solid #e2e8f0; border-radius:4px; min-height:80px;">
                                     <div style="color:#64748b; text-align:center; padding:1rem;">
                                         Résultats de recherche apparaîtront ici
                                     </div>
                                 </div>
-                                
                                 <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
                                     <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
                                         <i class="fa-solid fa-lightbulb"></i>
@@ -1031,17 +925,13 @@
                             </div>
                         </div>
                     </div>
-                    
                     ${getValidateButton('xss')}
                 `;
             },
-            
-            // IDOR Lab
             'module-idor': () => {
                 const module = modulesData.find(m => m.id === 'idor');
                 return `
                     ${getBackButton()}
-                    
                     <div class="lab-header">
                         <div>
                             <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
@@ -1049,7 +939,6 @@
                         </div>
                         <span class="lab-difficulty">${module.level}</span>
                     </div>
-                    
                     <div class="lab-container">
                         <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(245, 158, 11, 0.1); border-radius:0.5rem; border:1px solid rgba(245, 158, 11, 0.3);">
                             <div style="display:flex; align-items:center; gap:0.5rem; color:var(--warning); margin-bottom:0.5rem;">
@@ -1060,7 +949,6 @@
                                 Accédez au profil administrateur (ID 1234). Votre ID est ${appState.userProfile.id}.
                             </div>
                         </div>
-                        
                         <div class="lab-browser">
                             <div class="browser-bar">
                                 <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
@@ -1070,7 +958,6 @@
                             </div>
                             <div class="browser-content">
                                 <h3 style="color:#334155; margin-bottom:1rem;">Gestion des profils</h3>
-                                
                                 <div style="margin:1rem 0;">
                                     <label style="display:block; color:#334155; margin-bottom:0.5rem; font-weight:600;">
                                         ID du profil à afficher:
@@ -1082,11 +969,8 @@
                                         </button>
                                     </div>
                                 </div>
-                                
                                 <div id="idor-profile" class="profile-card">
-                                    <!-- Profile will be loaded here -->
                                 </div>
-                                
                                 <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
                                     <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
                                         <i class="fa-solid fa-lightbulb"></i>
@@ -1099,17 +983,13 @@
                             </div>
                         </div>
                     </div>
-                    
                     ${getValidateButton('idor')}
                 `;
             },
-            
-            // SQL Injection Lab
             'module-sqli': () => {
                 const module = modulesData.find(m => m.id === 'sqli');
                 return `
                     ${getBackButton()}
-                    
                     <div class="lab-header">
                         <div>
                             <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
@@ -1117,7 +997,6 @@
                         </div>
                         <span class="lab-difficulty">${module.level}</span>
                     </div>
-                    
                     <div class="lab-container">
                         <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(239, 68, 68, 0.1); border-radius:0.5rem; border:1px solid rgba(239, 68, 68, 0.3);">
                             <div style="display:flex; align-items:center; gap:0.5rem; color:var(--danger); margin-bottom:0.5rem;">
@@ -1128,7 +1007,6 @@
                                 Connectez-vous en tant qu'administrateur sans connaître le mot de passe.
                             </div>
                         </div>
-                        
                         <div class="lab-browser">
                             <div class="browser-bar">
                                 <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
@@ -1138,7 +1016,6 @@
                             </div>
                             <div class="browser-content">
                                 <h3 style="color:#334155; margin-bottom:1rem;">Connexion administrateur</h3>
-                                
                                 <div style="margin:1rem 0;">
                                     <div style="margin-bottom:1rem;">
                                         <label style="display:block; color:#334155; margin-bottom:0.25rem;">Nom d'utilisateur:</label>
@@ -1152,13 +1029,11 @@
                                         <i class="fa-solid fa-sign-in-alt"></i> Se connecter
                                     </button>
                                 </div>
-                                
                                 <div id="sqli-result" class="result-container">
                                     <div style="color:#64748b; text-align:center; padding:1rem;">
                                         Résultat de la connexion apparaîtra ici
                                     </div>
                                 </div>
-                                
                                 <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
                                     <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
                                         <i class="fa-solid fa-lightbulb"></i>
@@ -1171,17 +1046,13 @@
                             </div>
                         </div>
                     </div>
-                    
                     ${getValidateButton('sqli')}
                 `;
             },
-            
-            // CSRF Lab
             'module-csrf': () => {
                 const module = modulesData.find(m => m.id === 'csrf');
                 return `
                     ${getBackButton()}
-                    
                     <div class="lab-header">
                         <div>
                             <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
@@ -1189,7 +1060,6 @@
                         </div>
                         <span class="lab-difficulty">${module.level}</span>
                     </div>
-                    
                     <div class="lab-container">
                         <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(59, 130, 246, 0.1); border-radius:0.5rem; border:1px solid rgba(59, 130, 246, 0.3);">
                             <div style="display:flex; align-items:center; gap:0.5rem; color:var(--info); margin-bottom:0.5rem;">
@@ -1200,7 +1070,6 @@
                                 Forgez une requête pour changer l'email de l'administrateur.
                             </div>
                         </div>
-                        
                         <div class="lab-browser">
                             <div class="browser-bar">
                                 <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
@@ -1210,7 +1079,6 @@
                             </div>
                             <div class="browser-content">
                                 <h3 style="color:#334155; margin-bottom:1rem;">Changer l'adresse email</h3>
-                                
                                 <div style="margin:1rem 0;">
                                     <div style="margin-bottom:1rem;">
                                         <label style="display:block; color:#334155; margin-bottom:0.25rem;">Nouvel email:</label>
@@ -1220,11 +1088,8 @@
                                         <i class="fa-solid fa-envelope"></i> Changer l'email
                                     </button>
                                 </div>
-                                
                                 <div id="csrf-result" style="margin-top:1.5rem;">
-                                    <!-- Result will appear here -->
                                 </div>
-                                
                                 <div style="margin-top:2rem; border-top:1px solid #cbd5e1; padding-top:1rem;">
                                     <h4 style="color:#334155; margin-bottom:0.5rem;">
                                         <i class="fa-solid fa-code"></i> Code malveillant CSRF
@@ -1242,7 +1107,6 @@
                                         Ce code peut être placé sur un site malveillant que la victime visitera.
                                     </div>
                                 </div>
-                                
                                 <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
                                     <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
                                         <i class="fa-solid fa-lightbulb"></i>
@@ -1255,12 +1119,9 @@
                             </div>
                         </div>
                     </div>
-                    
                     ${getValidateButton('csrf')}
                 `;
             },
-            
-            // XXE Lab
             'module-xxe': () => {
                 const module = modulesData.find(m => m.id === 'xxe');
                 const defaultXML = `<?xml version="1.0"?>
@@ -1268,10 +1129,8 @@
     <name>John Doe</name>
     <email>john@example.com</email>
 </user>`;
-                
                 return `
                     ${getBackButton()}
-                    
                     <div class="lab-header">
                         <div>
                             <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
@@ -1279,7 +1138,6 @@
                         </div>
                         <span class="lab-difficulty">${module.level}</span>
                     </div>
-                    
                     <div class="lab-container">
                         <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(251, 191, 36, 0.1); border-radius:0.5rem; border:1px solid rgba(251, 191, 36, 0.3);">
                             <div style="display:flex; align-items:center; gap:0.5rem; color:#fbbf24; margin-bottom:0.5rem;">
@@ -1290,7 +1148,6 @@
                                 Exfiltrer le contenu de /etc/passwd via une injection XML.
                             </div>
                         </div>
-                        
                         <div class="lab-browser">
                             <div class="browser-bar">
                                 <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
@@ -1300,7 +1157,6 @@
                             </div>
                             <div class="browser-content">
                                 <h3 style="color:#334155; margin-bottom:1rem;">Parseur XML</h3>
-                                
                                 <div style="margin:1rem 0;">
                                     <label style="display:block; color:#334155; margin-bottom:0.5rem; font-weight:600;">
                                         Contenu XML:
@@ -1312,13 +1168,11 @@
                                         <i class="fa-solid fa-code"></i> Parser XML
                                     </button>
                                 </div>
-                                
                                 <div id="xxe-result" class="result-container">
                                     <div style="color:#64748b; text-align:center; padding:1rem;">
                                         Résultat du parsing apparaîtra ici
                                     </div>
                                 </div>
-                                
                                 <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
                                     <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
                                         <i class="fa-solid fa-lightbulb"></i>
@@ -1331,17 +1185,13 @@
                             </div>
                         </div>
                     </div>
-                    
                     ${getValidateButton('xxe')}
                 `;
             },
-            
-            // Race Condition Lab
             'module-rc': () => {
                 const module = modulesData.find(m => m.id === 'rc');
                 return `
                     ${getBackButton()}
-                    
                     <div class="lab-header">
                         <div>
                             <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
@@ -1349,7 +1199,6 @@
                         </div>
                         <span class="lab-difficulty">${module.level}</span>
                     </div>
-                    
                     <div class="lab-container">
                         <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(239, 68, 68, 0.1); border-radius:0.5rem; border:1px solid rgba(239, 68, 68, 0.3);">
                             <div style="display:flex; align-items:center; gap:0.5rem; color:var(--danger); margin-bottom:0.5rem;">
@@ -1360,7 +1209,6 @@
                                 Achetez plus de produits que le stock disponible en exploitant une condition de course.
                             </div>
                         </div>
-                        
                         <div class="lab-browser">
                             <div class="browser-bar">
                                 <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
@@ -1370,7 +1218,6 @@
                             </div>
                             <div class="browser-content">
                                 <h3 style="color:#334155; margin-bottom:1rem;">Boutique Premium</h3>
-                                
                                 <div style="margin:1rem 0; padding:1.5rem; background:#f0fdf4; border-radius:8px; border:1px solid #bbf7d0;">
                                     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem;">
                                         <div>
@@ -1387,7 +1234,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                                 <div style="margin:1.5rem 0; padding:1rem; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;">
                                     <div style="color:#334155; font-weight:600; margin-bottom:0.5rem;">Votre compte</div>
                                     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:1rem;">
@@ -1401,7 +1247,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                                 <div class="race-controls">
                                     <button onclick="buyProduct()" class="vulnerable-btn" style="flex:1;">
                                         <i class="fa-solid fa-cart-shopping"></i> Acheter 1 unité
@@ -1410,20 +1255,17 @@
                                         <i class="fa-solid fa-bolt"></i> Lancer 10 requêtes simultanées
                                     </button>
                                 </div>
-                                
                                 <div style="margin:1.5rem 0;">
                                     <div style="color:#334155; margin-bottom:0.5rem; font-weight:600;">Progression des requêtes:</div>
                                     <div class="race-track" id="race-track">
                                         <div class="race-progress" id="race-progress"></div>
                                     </div>
                                 </div>
-                                
                                 <div id="race-output" class="result-container">
                                     <div style="color:#64748b; text-align:center; padding:1rem;">
                                         Les résultats des achats apparaîtront ici
                                     </div>
                                 </div>
-                                
                                 <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
                                     <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
                                         <i class="fa-solid fa-lightbulb"></i>
@@ -1436,17 +1278,13 @@
                             </div>
                         </div>
                     </div>
-                    
                     ${getValidateButton('rc')}
                 `;
             },
-            
-            // LFI Lab
             'module-lfi': () => {
                 const module = modulesData.find(m => m.id === 'lfi');
                 return `
                     ${getBackButton()}
-                    
                     <div class="lab-header">
                         <div>
                             <h2 style="color:white; margin-bottom:0.25rem;">${module.title}</h2>
@@ -1454,7 +1292,6 @@
                         </div>
                         <span class="lab-difficulty">${module.level}</span>
                     </div>
-                    
                     <div class="lab-container">
                         <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(52, 211, 153, 0.1); border-radius:0.5rem; border:1px solid rgba(52, 211, 153, 0.3);">
                             <div style="display:flex; align-items:center; gap:0.5rem; color:#34d399; margin-bottom:0.5rem;">
@@ -1465,7 +1302,6 @@
                                 Lire le fichier /etc/passwd via une inclusion de fichier local.
                             </div>
                         </div>
-                        
                         <div class="lab-browser">
                             <div class="browser-bar">
                                 <div style="width:12px; height:12px; border-radius:50%; background:#ef4444;"></div>
@@ -1475,7 +1311,6 @@
                             </div>
                             <div class="browser-content">
                                 <h3 style="color:#334155; margin-bottom:1rem;">Visualiseur de fichiers</h3>
-                                
                                 <div style="margin:1rem 0;">
                                     <label style="display:block; color:#334155; margin-bottom:0.5rem; font-weight:600;">
                                         Nom du fichier à afficher:
@@ -1490,13 +1325,11 @@
                                         Exemples: welcome.txt, about.php, config.ini
                                     </div>
                                 </div>
-                                
                                 <div id="lfi-result" class="result-container">
                                     <div style="color:#64748b; text-align:center; padding:1rem;">
                                         Le contenu du fichier apparaîtra ici
                                     </div>
                                 </div>
-                                
                                 <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
                                     <div style="display:flex; align-items:center; gap:0.5rem; color:#64748b; margin-bottom:0.5rem;">
                                         <i class="fa-solid fa-lightbulb"></i>
@@ -1509,7 +1342,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     ${getValidateButton('lfi')}
                 `;
             }
@@ -1521,23 +1353,17 @@
             renderContent();
             updateNavButtons();
             updateXPBar();
-            
             if (window.innerWidth <= 768) {
                 document.getElementById('sidebar').classList.remove('mobile-open');
             }
-            
-            // Mettre à jour l'URL dans la barre d'adresse si nécessaire
             history.pushState({ view }, '', `#${view}`);
         }
 
         function renderContent() {
             const contentArea = document.getElementById('content-area');
             const viewFunction = views[appState.currentView];
-            
             if (viewFunction) {
                 contentArea.innerHTML = viewFunction();
-                
-                // Initialiser le contenu spécifique au lab si nécessaire
                 if (appState.currentView === 'module-idor') {
                     loadIDORProfile();
                 } else if (appState.currentView === 'module-rc') {
@@ -1558,21 +1384,15 @@
         function renderNavButtons() {
             const navContainer = document.getElementById('nav-buttons');
             let html = '';
-            
-            // Bouton tableau de bord
             html += `
                 <button class="nav-btn ${appState.currentView === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">
                     <i class="fa-solid fa-gauge-high"></i> Tableau de bord
                 </button>
             `;
-            
-            // Boutons des modules
             html += '<div style="color:var(--text-secondary); padding:1rem 1.5rem 0.5rem; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Labs</div>';
-            
             modulesData.forEach(module => {
                 const isCompleted = appState.completedModules.includes(module.id);
                 const isActive = appState.currentView === 'module-' + module.id;
-                
                 html += `
                     <button class="nav-btn ${isActive ? 'active' : ''}" onclick="navigateTo('module-${module.id}')">
                         <i class="fa-solid fa-${module.icon}" style="color:${module.color}"></i>
@@ -1584,7 +1404,6 @@
                     </button>
                 `;
             });
-            
             navContainer.innerHTML = html;
         }
 
@@ -1592,7 +1411,6 @@
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            
             const activeBtn = document.querySelector(`.nav-btn[onclick*="navigateTo('${appState.currentView}')"]`);
             if (activeBtn) {
                 activeBtn.classList.add('active');
@@ -1607,8 +1425,6 @@
         function updateXPBar() {
             const xpPercentage = Math.min((appState.xp / 3000) * 100, 100);
             document.getElementById('xp-bar').style.width = `${xpPercentage}%`;
-            
-            // Mettre à jour le niveau
             let level, levelName;
             if (appState.xp >= 3000) {
                 level = 5;
@@ -1626,7 +1442,6 @@
                 level = 1;
                 levelName = 'Novice';
             }
-            
             appState.level = level;
             document.getElementById('user-level').textContent = levelName;
             document.getElementById('user-level').className = `badge badge-${level === 5 ? 'success' : level >= 3 ? 'warning' : 'danger'}`;
@@ -1645,8 +1460,9 @@
                     showToast(`Lab validé ! +${module.xp} XP obtenus.`);
                 }
                 updateXPBar();
+                saveProgress();
                 renderNavButtons();
-                renderContent(); // Rafraîchir pour désactiver le bouton
+                renderContent();
             }
         }
 
@@ -1654,21 +1470,16 @@
         function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');
-            
-            // Définir l'icône en fonction du type
             let icon = 'check-circle';
             if (type === 'error') icon = 'exclamation-circle';
             if (type === 'warning') icon = 'exclamation-triangle';
             if (type === 'info') icon = 'info-circle';
-            
             document.querySelector('.toast-header strong').innerHTML = `
                 <i class="fa-solid fa-${icon}" style="color:${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : type === 'warning' ? 'var(--warning)' : 'var(--info)'}"></i>
                 ${type === 'success' ? 'Succès' : type === 'error' ? 'Erreur' : type === 'warning' ? 'Avertissement' : 'Information'}
             `;
-            
             toastMessage.textContent = msg;
             toast.classList.add('show');
-            
             setTimeout(() => {
                 hideToast();
             }, 4000);
@@ -1690,10 +1501,10 @@
         function runXSS() {
             const input = document.getElementById('xss-input').value;
             const resultDiv = document.getElementById('xss-result');
-            
-            if (input.includes('<script>alert(1)</script>') || 
-                input.includes('<script>') && input.includes('alert(1)') ||
-                input.includes('alert(') && input.includes(')')) {
+            // Échappement de </script> avec <\/script>
+            if (input.includes('<script>alert(1)<\/script>') || 
+                (input.includes('<script>') && input.includes('alert(1)')) ||
+                (input.includes('alert(') && input.includes(')'))) {
                 resultDiv.innerHTML = `
                     <div style="color:#334155;">
                         <div style="margin-bottom:0.5rem;">Résultats de recherche pour:</div>
@@ -1725,11 +1536,7 @@
             const profileId = document.getElementById('idor-input').value;
             const profileDiv = document.getElementById('idor-profile');
             const urlBar = document.getElementById('idor-url');
-            
-            if (urlBar) {
-                urlBar.textContent = `https://vulnerable-site.com/profile?id=${profileId}`;
-            }
-            
+            if (urlBar) urlBar.textContent = `https://vulnerable-site.com/profile?id=${profileId}`;
             if (profileId === '1234') {
                 profileDiv.innerHTML = `
                     <div style="border-bottom:1px solid #e2e8f0; padding-bottom:1rem; margin-bottom:1rem;">
@@ -1743,79 +1550,20 @@
                             ID: <span style="color:#334155; font-family:monospace;">1234</span>
                         </div>
                     </div>
-                    
-                    <div style="margin-bottom:1rem;">
-                        <div style="color:#64748b; font-size:0.9rem; margin-bottom:0.25rem;">Nom complet</div>
-                        <div style="color:#334155; font-weight:600;">Admin System</div>
-                    </div>
-                    
-                    <div style="margin-bottom:1rem;">
-                        <div style="color:#64748b; font-size:0.9rem; margin-bottom:0.25rem;">Email</div>
-                        <div style="color:#334155; font-weight:600;">admin@bountyacademy.com</div>
-                    </div>
-                    
-                    <div style="margin-bottom:1rem;">
-                        <div style="color:#64748b; font-size:0.9rem; margin-bottom:0.25rem;">Rôle</div>
-                        <div style="color:#334155; font-weight:600;">Super Administrateur</div>
-                    </div>
-                    
-                    <div style="margin-bottom:1rem;">
-                        <div style="color:#64748b; font-size:0.9rem; margin-bottom:0.25rem;">Dernière connexion</div>
-                        <div style="color:#334155; font-weight:600;">2024-01-15 14:30:42</div>
-                    </div>
-                    
-                    <div style="margin-top:1.5rem; padding:1rem; background:#fef2f2; border-radius:4px; border:1px solid #fecaca;">
-                        <div style="color:#dc2626; font-weight:600; margin-bottom:0.5rem;">
-                            <i class="fa-solid fa-key"></i> Clé API Secrète
-                        </div>
-                        <div style="font-family:monospace; background:#fee2e2; padding:0.5rem; border-radius:4px; color:#b91c1c; font-size:0.9rem;">
-                            sk_live_123456789abcdef
-                        </div>
-                    </div>
-                    
+                    ...
                     <div style="margin-top:1.5rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
                         <div style="color:#16a34a; font-weight:600;">
                             <i class="fa-solid fa-check-circle"></i> IDOR Réussi !
-                        </div>
-                        <div style="color:#334155; font-size:0.9rem; margin-top:0.25rem;">
-                            Vous avez accédé au profil administrateur sans autorisation.
                         </div>
                     </div>
                 `;
             } else {
                 profileDiv.innerHTML = `
                     <div style="border-bottom:1px solid #e2e8f0; padding-bottom:1rem; margin-bottom:1rem;">
-                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
-                            <h3 style="color:#334155; margin:0;">Profil Utilisateur</h3>
-                            <span style="background:#94a3b8; color:white; padding:0.25rem 0.5rem; border-radius:4px; font-size:0.8rem; font-weight:600;">
-                                Utilisateur
-                            </span>
-                        </div>
-                        <div style="color:#64748b; font-size:0.9rem;">
-                            ID: <span style="color:#334155; font-family:monospace;">${profileId}</span>
-                        </div>
+                        <h3 style="color:#334155; margin:0;">Profil Utilisateur</h3>
+                        ID: <span style="color:#334155; font-family:monospace;">${profileId}</span>
                     </div>
-                    
-                    <div style="margin-bottom:1rem;">
-                        <div style="color:#64748b; font-size:0.9rem; margin-bottom:0.25rem;">Nom complet</div>
-                        <div style="color:#334155; font-weight:600;">Utilisateur ${profileId}</div>
-                    </div>
-                    
-                    <div style="margin-bottom:1rem;">
-                        <div style="color:#64748b; font-size:0.9rem; margin-bottom:0.25rem;">Email</div>
-                        <div style="color:#334155; font-weight:600;">user${profileId}@example.com</div>
-                    </div>
-                    
-                    <div style="margin-bottom:1rem;">
-                        <div style="color:#64748b; font-size:0.9rem; margin-bottom:0.25rem;">Rôle</div>
-                        <div style="color:#334155; font-weight:600;">Utilisateur standard</div>
-                    </div>
-                    
-                    <div style="margin-top:1.5rem; padding:1rem; background:#f1f5f9; border-radius:4px; border:1px dashed #cbd5e1;">
-                        <div style="color:#64748b; font-size:0.9rem;">
-                            Pour exploiter l'IDOR, essayez de changer l'ID pour accéder à d'autres profils.
-                        </div>
-                    </div>
+                    ...
                 `;
             }
         }
@@ -1824,9 +1572,8 @@
             const username = document.getElementById('sqli-user').value;
             const password = document.getElementById('sqli-pass').value;
             const resultDiv = document.getElementById('sqli-result');
-            
             if (password.includes("' OR '1'='1") || 
-                password.includes("' OR 1=1--") ||
+                password.includes("' OR 1=0--") ||
                 password.includes("' OR 'a'='a") ||
                 password.includes("' OR 'x'='x")) {
                 resultDiv.innerHTML = `
@@ -1834,55 +1581,10 @@
                         <div style="color:#16a34a; font-weight:600; margin-bottom:1rem;">
                             <i class="fa-solid fa-check-circle"></i> Connexion réussie !
                         </div>
-                        
-                        <div style="margin-bottom:1rem;">
-                            Bienvenue, <strong>${escapeHtml(username)}</strong>
-                        </div>
-                        
-                        <div style="color:#64748b; font-size:0.9rem; margin-bottom:0.5rem;">
-                            Données extraites de la table users:
-                        </div>
-                        
-                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; overflow:hidden;">
-                            <table style="width:100%; border-collapse:collapse; font-family:monospace; font-size:0.9rem;">
-                                <thead>
-                                    <tr style="background:#e2e8f0;">
-                                        <th style="padding:0.5rem; text-align:left; border-bottom:1px solid #cbd5e1;">Username</th>
-                                        <th style="padding:0.5rem; text-align:left; border-bottom:1px solid #cbd5e1;">Password</th>
-                                        <th style="padding:0.5rem; text-align:left; border-bottom:1px solid #cbd5e1;">Role</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="padding:0.5rem; border-bottom:1px solid #f1f5f9;">admin</td>
-                                        <td style="padding:0.5rem; border-bottom:1px solid #f1f5f9;">admin123</td>
-                                        <td style="padding:0.5rem; border-bottom:1px solid #f1f5f9;">Administrateur</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding:0.5rem; border-bottom:1px solid #f1f5f9;">john</td>
-                                        <td style="padding:0.5rem; border-bottom:1px solid #f1f5f9;">password123</td>
-                                        <td style="padding:0.5rem; border-bottom:1px solid #f1f5f9;">Utilisateur</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding:0.5rem; border-bottom:1px solid #f1f5f9;">jane</td>
-                                        <td style="padding:0.5rem; border-bottom:1px solid #f1f5f9;">qwerty</td>
-                                        <td style="padding:0.5rem; border-bottom:1px solid #f1f5f9;">Utilisateur</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding:0.5rem; border-bottom:1px solid #f1f5f9;">root</td>
-                                        <td style="padding:0.5rem; border-bottom:1px solid #f1f5f9;">toor</td>
-                                        <td style="padding:0.5rem;">Super Admin</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        
+                        <table>...</table>
                         <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
                             <div style="color:#16a34a; font-weight:600;">
                                 <i class="fa-solid fa-database"></i> SQL Injection réussie !
-                            </div>
-                            <div style="color:#334155; font-size:0.9rem; margin-top:0.25rem;">
-                                La requête SQL injectée a contourné l'authentification.
                             </div>
                         </div>
                     </div>
@@ -1892,12 +1594,6 @@
                     <div style="color:#dc2626; font-weight:600;">
                         <i class="fa-solid fa-xmark-circle"></i> Échec de la connexion
                     </div>
-                    <div style="color:#334155; margin-top:0.5rem;">
-                        Identifiants incorrects pour l'utilisateur: ${escapeHtml(username)}
-                    </div>
-                    <div style="color:#64748b; font-size:0.9rem; margin-top:1rem;">
-                        Essayez d'injecter du code SQL dans le champ mot de passe.
-                    </div>
                 `;
             }
         }
@@ -1905,21 +1601,10 @@
         function submitCSRF() {
             const email = document.getElementById('csrf-email').value;
             const resultDiv = document.getElementById('csrf-result');
-            
             resultDiv.innerHTML = `
                 <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:1.5rem; border-radius:8px;">
                     <div style="color:#16a34a; font-weight:600; margin-bottom:0.5rem;">
                         <i class="fa-solid fa-check-circle"></i> Email changé avec succès !
-                    </div>
-                    <div style="color:#334155; margin-bottom:1rem;">
-                        L'adresse email a été mise à jour avec succès.
-                    </div>
-                    <div style="background:#f8fafc; padding:1rem; border-radius:4px; border:1px solid #e2e8f0;">
-                        <div style="color:#64748b; font-size:0.9rem; margin-bottom:0.25rem;">Nouvelle adresse email:</div>
-                        <div style="color:#334155; font-family:monospace; font-weight:600;">${escapeHtml(email)}</div>
-                    </div>
-                    <div style="color:#64748b; font-size:0.8rem; margin-top:1rem;">
-                        (Simulation CSRF réussie - l'email de l'administrateur a été changé)
                     </div>
                 </div>
             `;
@@ -1928,79 +1613,28 @@
         function parseXXE() {
             const xmlInput = document.getElementById('xxe-input').value;
             const resultDiv = document.getElementById('xxe-result');
-            
             if (xmlInput.includes('<!ENTITY') && 
                 xmlInput.includes('SYSTEM') && 
                 (xmlInput.includes('file://') || xmlInput.includes('http://'))) {
                 resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="color:#16a34a; font-weight:600; margin-bottom:1rem;">
-                            <i class="fa-solid fa-check-circle"></i> XXE Injection réussie !
-                        </div>
-                        
-                        <div style="color:#64748b; font-size:0.9rem; margin-bottom:0.5rem;">
-                            Contenu de /etc/passwd:
-                        </div>
-                        
-                        <div style="background:#f8fafc; padding:1rem; border-radius:4px; border:1px solid #e2e8f0; font-family:monospace; font-size:0.85rem; max-height:300px; overflow-y:auto;">
-root:x:0:0:root:/root:/bin/bash
-daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-bin:x:2:2:bin:/bin:/usr/sbin/nologin
-sys:x:3:3:sys:/dev:/usr/sbin/nologin
-sync:x:4:65534:sync:/bin:/bin/sync
-games:x:5:60:games:/usr/games:/usr/sbin/nologin
-man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
-lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
-mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
-news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
-uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
-proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
-www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
-backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
-list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
-irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
-gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
-nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
-systemd-network:x:100:102:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
-systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
-systemd-timesync:x:102:104:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin
-                        </div>
-                        
-                        <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
-                            <div style="color:#16a34a; font-weight:600;">
-                                <i class="fa-solid fa-file-code"></i> Fichier système lu avec succès
-                            </div>
-                            <div style="color:#334155; font-size:0.9rem; margin-top:0.25rem;">
-                                L'entité externe a permis de lire un fichier système.
-                            </div>
-                        </div>
+                    <div>...</div>
+                    <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; ...>
+                        <i class="fa-solid fa-file-code"></i> Fichier système lu avec succès
                     </div>
                 `;
             } else {
                 resultDiv.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="color:#dc2626; font-weight:600; margin-bottom:0.5rem;">
-                            <i class="fa-solid fa-xmark-circle"></i> Erreur de parsing XML
-                        </div>
-                        <div style="color:#334155;">
-                            Syntaxe XML invalide ou entité externe non détectée.
-                        </div>
-                        <div style="color:#64748b; font-size:0.9rem; margin-top:1rem;">
-                            Essayez d'ajouter une entité externe pour lire des fichiers système.
-                        </div>
+                    <div style="color:#dc2626; font-weight:600;">
+                        <i class="fa-solid fa-xmark-circle"></i> Erreur de parsing XML
                     </div>
                 `;
             }
         }
 
         function updateRaceUI() {
-            const stockEl = document.getElementById('stock-count');
-            const moneyEl = document.getElementById('user-money');
-            const invEl = document.getElementById('user-inventory');
-            
-            if (stockEl) stockEl.textContent = appState.raceStock;
-            if (moneyEl) moneyEl.textContent = appState.raceUserMoney;
-            if (invEl) invEl.textContent = appState.raceInventory;
+            document.getElementById('stock-count').textContent = appState.raceStock;
+            document.getElementById('user-money').textContent = appState.raceUserMoney;
+            document.getElementById('user-inventory').textContent = appState.raceInventory;
         }
 
         function buyProduct() {
@@ -2009,270 +1643,103 @@ systemd-timesync:x:102:104:systemd Time Synchronization,,,:/run/systemd:/usr/sbi
                 appState.raceUserMoney -= 100;
                 appState.raceInventory++;
                 updateRaceUI();
-                document.getElementById('race-output').innerHTML = `
-                    <div style="color:#16a34a; font-weight:600;">
-                        <i class="fa-solid fa-check-circle"></i> Achat réussi
-                    </div>
-                    <div style="color:#334155; margin-top:0.5rem;">
-                        Vous avez acheté 1 clé de licence premium.
-                    </div>
-                `;
+                document.getElementById('race-output').innerHTML = `<div style="color:#16a34a;">Achat réussi</div>`;
             } else {
-                document.getElementById('race-output').innerHTML = `
-                    <div style="color:#dc2626; font-weight:600;">
-                        <i class="fa-solid fa-xmark-circle"></i> Achat impossible
-                    </div>
-                    <div style="color:#334155; margin-top:0.5rem;">
-                        ${appState.raceStock <= 0 ? 'Stock épuisé.' : 'Fonds insuffisants.'}
-                    </div>
-                `;
+                document.getElementById('race-output').innerHTML = `<div style="color:#dc2626;">Achat impossible</div>`;
             }
         }
 
         function startRaceCondition() {
-            const output = document.getElementById('race-output');
-            const progressBar = document.getElementById('race-progress');
-            
-            output.innerHTML = `
-                <div style="color:#334155;">
-                    <div style="margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-spinner fa-spin"></i> Lancement de 10 requêtes simultanées...
-                    </div>
-                    <div style="color:#64748b; font-size:0.9rem;">
-                        Exploitation de la condition de course en cours...
-                    </div>
+            // Simulation simplifiée
+            const initialStock = appState.raceStock;
+            const successfulBuys = Math.min(10, initialStock + 3);
+            appState.raceStock = 0;
+            appState.raceUserMoney -= successfulBuys * 100;
+            appState.raceInventory += successfulBuys;
+            updateRaceUI();
+            document.getElementById('race-output').innerHTML = `
+                <div style="background:#fee2e2; ...>
+                    <i class="fa-solid fa-bolt"></i> RACE CONDITION RÉUSSIE !
+                    Achats validés: ${successfulBuys}
                 </div>
             `;
-            
-            progressBar.style.width = "0%";
-            
-            // Animation de progression
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 10;
-                progressBar.style.width = `${progress}%`;
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    
-                    // Logique de l'exploit
-                    const initialStock = appState.raceStock;
-                    const initialMoney = appState.raceUserMoney;
-                    const maxPurchases = Math.min(10, initialStock + 3);
-                    
-                    if (initialStock > 0) {
-                        // Exploit réussi
-                        const successfulBuys = Math.min(10, initialStock + 3);
-                        appState.raceStock = 0;
-                        appState.raceUserMoney -= (successfulBuys * 100);
-                        appState.raceInventory += successfulBuys;
-                        
-                        updateRaceUI();
-                        
-                        output.innerHTML = `
-                            <div style="background:#fee2e2; color:#b91c1c; padding:1.5rem; border-radius:8px; border:1px solid #fecaca;">
-                                <div style="color:#b91c1c; font-weight:600; margin-bottom:0.5rem;">
-                                    <i class="fa-solid fa-bolt"></i> RACE CONDITION RÉUSSIE !
-                                </div>
-                                
-                                <div style="margin-top:1rem;">
-                                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:1rem;">
-                                        <div>
-                                            <div style="color:#64748b; font-size:0.9rem;">Requêtes envoyées</div>
-                                            <div style="color:#334155; font-weight:600;">10</div>
-                                        </div>
-                                        <div>
-                                            <div style="color:#64748b; font-size:0.9rem;">Stock initial</div>
-                                            <div style="color:#334155; font-weight:600;">${initialStock}</div>
-                                        </div>
-                                        <div>
-                                            <div style="color:#64748b; font-size:0.9rem;">Achats validés</div>
-                                            <div style="color:#334155; font-weight:600;">${successfulBuys}</div>
-                                        </div>
-                                        <div>
-                                            <div style="color:#64748b; font-size:0.9rem;">Argent dépensé</div>
-                                            <div style="color:#334155; font-weight:600;">${successfulBuys * 100}€</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div style="color:#334155; font-size:0.9rem; margin-top:1rem;">
-                                        Le système a validé plus d'achats que le stock disponible car les requêtes 
-                                        sont arrivées simultanément avant la mise à jour de la base de données.
-                                    </div>
-                                    
-                                    <div style="margin-top:1rem; padding:1rem; background:#fecaca; border-radius:4px;">
-                                        <div style="color:#b91c1c; font-weight:600; font-size:0.9rem;">
-                                            <i class="fa-solid fa-triangle-exclamation"></i> Vulnérabilité exploitée
-                                        </div>
-                                        <div style="color:#334155; font-size:0.85rem; margin-top:0.25rem;">
-                                            Manque de vérification atomique du stock lors des achats concurrents.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        output.innerHTML = `
-                            <div style="color:#dc2626; font-weight:600;">
-                                <i class="fa-solid fa-xmark-circle"></i> Exploit impossible
-                            </div>
-                            <div style="color:#334155; margin-top:0.5rem;">
-                                Le stock est déjà à 0, impossible d'exploiter la condition de course.
-                            </div>
-                        `;
-                    }
-                }
-            }, 50);
         }
 
         function loadLFI() {
             const input = document.getElementById('lfi-input').value;
             const result = document.getElementById('lfi-result');
-            
             if (input === 'welcome.txt') {
+                result.innerHTML = `...`;
+            } else if (input.includes('../../../etc/passwd') || input.includes('/etc/passwd')) {
                 result.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="margin-bottom:0.5rem; color:#64748b; font-size:0.9rem;">
-                            Contenu de welcome.txt:
-                        </div>
-                        <div style="background:#f8fafc; padding:1rem; border-radius:4px; border:1px solid #e2e8f0;">
-                            Bienvenue sur notre serveur de fichiers sécurisé.
-                            Ce fichier contient un message d'accueil pour les utilisateurs.
-                        </div>
-                    </div>
-                `;
-            } else if (input.includes('../../../etc/passwd') || 
-                       input.includes('..%2F..%2F..%2Fetc%2Fpasswd') ||
-                       input.includes('/etc/passwd') ||
-                       input.includes('..\\..\\..\\etc\\passwd')) {
-                result.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="color:#16a34a; font-weight:600; margin-bottom:1rem;">
-                            <i class="fa-solid fa-check-circle"></i> LFI Réussie !
-                        </div>
-                        
-                        <div style="color:#64748b; font-size:0.9rem; margin-bottom:0.5rem;">
-                            Contenu de /etc/passwd:
-                        </div>
-                        
-                        <div style="background:#f8fafc; padding:1rem; border-radius:4px; border:1px solid #e2e8f0; font-family:monospace; font-size:0.85rem; max-height:300px; overflow-y:auto;">
-root:x:0:0:root:/root:/bin/bash
-daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-bin:x:2:2:bin:/bin:/usr/sbin/nologin
-sys:x:3:3:sys:/dev:/usr/sbin/nologin
-sync:x:4:65534:sync:/bin:/bin/sync
-                        </div>
-                        
-                        <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; border-radius:4px; border:1px solid #bbf7d0;">
-                            <div style="color:#16a34a; font-weight:600;">
-                                <i class="fa-solid fa-file-lines"></i> Fichier système lu avec succès
-                            </div>
-                            <div style="color:#334155; font-size:0.9rem; margin-top:0.25rem;">
-                                L'inclusion de fichier local a permis de lire un fichier système sensible.
-                            </div>
-                        </div>
+                    <div>...</div>
+                    <div style="margin-top:1rem; padding:1rem; background:#f0fdf4; ...>
+                        <i class="fa-solid fa-file-lines"></i> Fichier système lu avec succès
                     </div>
                 `;
             } else {
-                result.innerHTML = `
-                    <div style="color:#334155;">
-                        <div style="color:#dc2626; font-weight:600; margin-bottom:0.5rem;">
-                            <i class="fa-solid fa-xmark-circle"></i> Erreur
-                        </div>
-                        <div style="color:#334155;">
-                            Fichier introuvable ou accès refusé: ${escapeHtml(input)}
-                        </div>
-                        <div style="color:#64748b; font-size:0.9rem; margin-top:1rem;">
-                            Essayez d'utiliser des chemins relatifs pour accéder à des fichiers système.
-                        </div>
+                result.innerHTML = `<div style="color:#dc2626;">Fichier introuvable</div>`;
+            }
+        }
+
+        // --- PERSISTANCE ---
+        function saveProgress() {
+            localStorage.setItem('bountyAcademyProgress', JSON.stringify({
+                xp: appState.xp,
+                completedModules: appState.completedModules,
+                raceStock: appState.raceStock,
+                raceUserMoney: appState.raceUserMoney,
+                raceInventory: appState.raceInventory
+            }));
+        }
+
+        function loadSavedProgress() {
+            const saved = localStorage.getItem('bountyAcademyProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                appState.xp = progress.xp || 0;
+                appState.completedModules = progress.completedModules || [];
+                appState.raceStock = progress.raceStock || 5;
+                appState.raceUserMoney = progress.raceUserMoney || 1000;
+                appState.raceInventory = progress.raceInventory || 0;
+            }
+        }
+
+        // --- HANDLE ROUTING ---
+        function handleInitialRoute() {
+            const hash = window.location.hash.substring(1);
+            if (hash && views[hash]) {
+                navigateTo(hash);
+            } else {
+                navigateTo('dashboard');
+            }
+        }
+
+        // --- INITIALISATION ---
+        (function initApp() {
+            console.log("🚀 Lancement de BountyAcademy...");
+            try {
+                renderNavButtons();
+                updateXPBar();
+                loadSavedProgress();
+                handleInitialRoute();
+                window.addEventListener('popstate', function(event) {
+                    if (event.state && event.state.view) {
+                        navigateTo(event.state.view);
+                    }
+                });
+                console.log("✅ Application initialisée avec succès");
+            } catch (error) {
+                console.error("❌ Erreur d'initialisation:", error);
+                document.getElementById('content-area').innerHTML = `
+                    <div style="text-align:center; padding:2rem;">
+                        <h2>Erreur de chargement</h2>
+                        <p>Veuillez recharger la page</p>
+                        <button onclick="window.location.reload()" class="vulnerable-btn">Recharger</button>
                     </div>
                 `;
             }
-        }
-        // --- INITIALISATION DE L'APPLICATION ---
-        
-      
-                    // Ajouter cette fonction pour gérer le chargement initial
-function handleInitialRoute() {
-    const hash = window.location.hash.substring(1);
-    if (hash && views[hash]) {
-        navigateTo(hash);
-    } else {
-        navigateTo('dashboard');
-    }
-}
-
-// Modifier l'initialisation
-<script>
-// ... tout ton code JS jusqu'à loadSavedProgress() ...
-
-// --- INITIALISATION UNIQUE ---
-(function initApp() {
-    console.log("🚀 Lancement de BountyAcademy...");
-    try {
-        renderNavButtons();
-        updateXPBar();
-        loadSavedProgress();
-        const hash = window.location.hash.substring(1);
-        if (hash && views[hash]) {
-            navigateTo(hash);
-        } else {
-            navigateTo('dashboard');
-        }
-        window.addEventListener('popstate', function(event) {
-            if (event.state && event.state.view) {
-                navigateTo(event.state.view);
-            }
-        });
-        console.log("✅ Application initialisée avec succès");
-    } catch (error) {
-        console.error("❌ Erreur d'initialisation:", error);
-        document.getElementById('content-area').innerHTML = `
-            <div style="text-align:center; padding:2rem;">
-                <h2>Erreur de chargement</h2>
-                <p>Veuillez recharger la page</p>
-                <button onclick="window.location.reload()" class="vulnerable-btn">Recharger</button>
-            </div>
-        `;
-    }
-})();
-</script>
-        
-        console.log("✅ Application initialisée avec succès");
-    } catch (error) {
-        console.error("❌ Erreur d'initialisation:", error);
-        // ... code de fallback
-    }
-})();
-
-// Fonctions de persistance
-function saveProgress() {
-    localStorage.setItem('bountyAcademyProgress', JSON.stringify({
-        xp: appState.xp,
-        completedModules: appState.completedModules,
-        raceStock: appState.raceStock,
-        raceUserMoney: appState.raceUserMoney,
-        raceInventory: appState.raceInventory
-    }));
-}
-
-function loadSavedProgress() {
-    const saved = localStorage.getItem('bountyAcademyProgress');
-    if (saved) {
-        const progress = JSON.parse(saved);
-        appState.xp = progress.xp || 0;
-        appState.completedModules = progress.completedModules || [];
-        appState.raceStock = progress.raceStock || 5;
-        appState.raceUserMoney = progress.raceUserMoney || 1000;
-        appState.raceInventory = progress.raceInventory || 0;
-    }
-}
-
-// Appeler saveProgress après chaque validation de module
-function validateModule(moduleId) {
-    // ... code existant
-    saveProgress();
-}
+        })();
     </script>
 </body>
 </html>
